@@ -1,0 +1,11 @@
+@font-face {
+  font-family: "OpenSans";
+  src: url("../assets/fonts/OpenSans/OpenSans-Regular.ttf") format("tff");
+    /* url("../assets/fonts/OpenSans/") format("woff"); */
+}
+
+@font-face {
+  font-family: "Lato";
+  src: url("../assets/fonts/Lato/wotf/Lato-Regular.woff") format("tff"),
+    url("../assets/fonts/Lato/wotf/Lato-Regular.woff2") format("woff");
+}
