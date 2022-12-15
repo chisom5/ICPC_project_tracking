@@ -1,20 +1,17 @@
 const baseColors = {
   white: "#ffffff",
-  // black: "#000000",
   gray: "#cccccc",
+  gray4: "#B2B2B2",
   grayShade: "#f6f6f6",
-mainBlue: '#237CBF',
-  // green: "#009A44",
-  // lightgray: "#757B86",
-  // transparent: "transparent",
-  // blue: "#00338D",
-  // lighBlue: "#0091DA",
+  mainBlue: "#237CBF",
+  sidebarColor: "#30304A",
 };
 
 const blacks = {
   lightGrayScale: "#1C1C1C",
   black1: "#333333",
-  mainBlack: '#000000'
+  mainBlack: "#000000",
+  neuralDark: '#152738'
 };
 
 const common = {
@@ -37,7 +34,9 @@ const colors = {
       background: "#fff",
       formHeader: "#152738",
       formsubHeaderBlack: "#272E33",
-      danger: '#CC3366',
+      danger: "#CC3366",
+      secondaryDarkBlue: "#0C233C",
+      secondaryPink: "#FD349C",
       // primary: "#00338D",
       // secondary: "#293241",
       // tertiary: "#F68D2E",

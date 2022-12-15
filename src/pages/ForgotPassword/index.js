@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import SVG from "react-inlinesvg";
 import colors from "../../theme/colors";
-import { Text, Main, Box, Img } from "../../components/Primitives";
+import {  Main, Box, Img } from "../../components/Primitives";
 import { HomeHeader, FormComponent } from "./components";
 import { useSelector } from "react-redux";
 
@@ -19,36 +18,35 @@ const ForgotPContainer = styled.div`
     padding: 45px 40px 40px 40px;
     position: relative;
 
-    .col{
+    .col {
       padding: 0px;
     }
   }
-  .floating-formImg{
+  .floating-formImg {
     position: relative;
     left: -120px;
     min-width: 120%;
   }
 
-  .col-md-6{
-
+  .col-md-6 {
   }
 `;
 
 const ForgotPassword = () => {
-  const {page} = useSelector((state)=> state.forgetP)
+  const { page } = useSelector((state) => state.forgetP);
   return (
     <ForgotPContainer>
       <HomeHeader />
 
       <Main className="row">
         <Box className="col">
-          <Box className='floating-formImg'>
-            {page === 'forgetP1' &&
-          <Img src={require('../../assets/images/forgotP1.svg').default}/>
-  }
-  {page === 'forgetP2' &&
-  <Img src={require('../../assets/images/forgotP2.svg').default}/>
-  }
+          <Box className="floating-formImg">
+            {page === "forgetP1" && (
+              <Img src={require("../../assets/images/forgotP1.svg").default} />
+            )}
+            {page === "forgetP2" && (
+              <Img src={require("../../assets/images/forgotP2.svg").default} />
+            )}
           </Box>
         </Box>
 

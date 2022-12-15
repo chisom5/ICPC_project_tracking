@@ -6,9 +6,10 @@ import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Homepage from "../Homepage";
 import SignIn from "../SignIn";
 import ForgotPassword from "../ForgotPassword";
-import Welcome from '../Welcome';
-
+import Welcome from "../Welcome";
+import AuthViewWrapper from '../auth';
 import FourZeroFour from "../notFound";
+import Budgetupload from "../auth/BudgetUpload";
 
 class App extends Component {
   render() {
@@ -19,6 +20,11 @@ class App extends Component {
           <Route path="signIn" element={<SignIn />} />
           <Route path="forgotPassword" element={<ForgotPassword />} />
           <Route path="welcome" element={<Welcome />} />
+
+          <Route path="/d" element={<AuthViewWrapper />}>
+          <Route index path="budget" element={<Budgetupload />} />
+
+          </Route>
 
           <Route path="*" element={<FourZeroFour />} />
         </Routes>
