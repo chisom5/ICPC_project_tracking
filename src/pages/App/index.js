@@ -9,7 +9,7 @@ import ForgotPassword from "../ForgotPassword";
 import Welcome from "../Welcome";
 import AuthViewWrapper from '../auth';
 import FourZeroFour from "../notFound";
-import Budgetupload from "../auth/BudgetUpload";
+import BudgetUploadPage from "../auth/BudgetUploadPage";
 
 class App extends Component {
   render() {
@@ -22,7 +22,7 @@ class App extends Component {
           <Route path="welcome" element={<Welcome />} />
 
           <Route path="/d" element={<AuthViewWrapper />}>
-          <Route index path="budget" element={<Budgetupload />} />
+          <Route index path="budget" element={<BudgetUploadPage />} />
 
           </Route>
 

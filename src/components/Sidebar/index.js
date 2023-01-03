@@ -75,12 +75,12 @@ const Sidebar = (props) => {
 export default Sidebar;
 
 const StyledSidebar = styled.aside`
-  width: 85px;
+  width: 90px;
   height: 100%;
   position: fixed;
   background-color: ${colors.modes.light.sidebarColor};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  // border-radius: 0px 20px 20px 0px;
+  border-radius: 0px 20px 20px 0px;
 
   .sidebar__inner {
     height: inherit;
@@ -99,12 +99,11 @@ const StyledSidebar = styled.aside`
       p {
         text-align: center;
         font-weight: 700;
-        font-size: 9px;
+        font-size: 11px;
         line-height: 12px;
         display: flex;
         align-items: center;
-        letter-spacing: -0.02em;
-        margin-top: 10px;
+        margin-top: 5px;
       }
     }
     .menu_item_active {

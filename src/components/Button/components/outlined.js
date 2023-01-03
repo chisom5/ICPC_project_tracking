@@ -2,6 +2,7 @@ import React from "react";
 import { variant } from "styled-system";
 import styled from "styled-components";
 import { base } from "../../../styles/baseStyle";
+import colors from "../../../theme/colors";
 
 const StyledBtnOutlined = styled("button")`
   outline: 0;
@@ -17,6 +18,10 @@ const StyledBtnOutlined = styled("button")`
   //   cursor: "not-allowed",
   // },
 
+  &:hover {
+    background: ${(props) => props.hover};
+    color: ${(props) => props.hover ? colors.modes.light.white: 'inherit' };
+  }
   ${base}
 `;
 

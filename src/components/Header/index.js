@@ -18,6 +18,8 @@ const HeaderStyle = styled.header`
   justify-content: space-between;
   padding: 10px 15px;
   border-bottom: 1px solid #e8e9eb;
+  position: fixed;
+  z-index: 1000;
 
   .logo {
     max-width: 250px;

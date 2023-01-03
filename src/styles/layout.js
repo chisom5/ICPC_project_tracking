@@ -8,8 +8,9 @@ export const Container = styled(Box)`
 `;
 export const Main = styled.main`
   display: flex;
-  //   padding-top: 4.375rem;
+  padding-top: 70px;
   width: 100%;
+  height: 100%;
 `;
 
 export const MainContent = styled.section`
@@ -50,6 +51,25 @@ export const Content = styled.div`
   }
 `;
 
+export const UploadContainer = styled(Box)`
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 21px 51px;
+  width: 90%;
+
+  .field-bg {
+    .ant-select-selector {
+      background: ${colors.modes.light.inputBgColor};
+    }
+  }
+`;
+
+export const OtherContentContainer = styled(Box)`
+  background: #ffffff;
+  border-radius: 10px;
+  width: 100%;
+`;
+
 export const MiniHeaderStyle = styled.div`
   background: ${colors.modes.light.white};
   padding: ${(props) =>
@@ -67,7 +87,7 @@ export const MiniHeaderStyle = styled.div`
     line-height: 22px;
     display: flex;
     align-items: center;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.02em;
   }
 
   .tabs-nav {

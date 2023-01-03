@@ -20,10 +20,10 @@ const Input = styled.input`
   }
 
   &::placeholder {
+    font-weight: 400;
+    font-size: 11px;
     color: ${(props) =>
-      props.disabled
-        ? '#B0B3B8'
-        : props.theme.colors.placeholderColor};
+      props.disabled ? "#B0B3B8" : props.theme.colors.placeholderColor};
   }
 
   ${base}
