@@ -7,11 +7,13 @@ import {
   BudgetAnomalies,
   BudgetProjectName,
 } from "./components/views";
-import { setCurrentView } from "../../../services/globalReduxFunction/action";
+import { setCurrentView } from "../../../services/global/action";
 
 const BudgetuploadPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const { currentView } = useSelector((state) => state.global);
+  const { currentView, SelectedAnomalData } = useSelector(
+    (state) => state.global
+  );
   const dispatch = useDispatch();
 
   const handlePagination = (pagination) => {
@@ -38,7 +40,11 @@ const BudgetuploadPage = () => {
           <p className="title">Budget Anomalies</p>
         ) : currentView === "projectTitle" ? (
           // here the tabs
-          <p className="title">Budget Anomalies | Project Name</p>
+          <div className="title">
+            <span className="header_past_title">Budget Anomalies</span>{" "}
+            <p className="header_current_title">{SelectedAnomalData[0]?.projectTitle}</p>
+            <span className="current_title_btab"></span>
+          </div>
         ) : null}
       </MiniHeaderStyle>
       <Content>

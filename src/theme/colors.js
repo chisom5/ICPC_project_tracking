@@ -38,6 +38,8 @@ const colors = {
       primaryColor: '#30304A',
       secondaryDarkBlue: "#0C233C",
       secondaryPink: "#FD349C",
+      tableHead: '#737D88',
+      yellow: '#F9EB6D',
       // primary: "#00338D",
       // secondary: "#293241",
       // tertiary: "#F68D2E",

@@ -7,9 +7,11 @@ import Homepage from "../Homepage";
 import SignIn from "../SignIn";
 import ForgotPassword from "../ForgotPassword";
 import Welcome from "../Welcome";
-import AuthViewWrapper from '../auth';
+import AuthViewWrapper from "../auth";
 import FourZeroFour from "../notFound";
 import BudgetUploadPage from "../auth/BudgetUploadPage";
+import ProjectSelection from "../auth/projectSelection";
+import ContractAndTenderUpload from "../auth/contracts";
 
 class App extends Component {
   render() {
@@ -22,8 +24,9 @@ class App extends Component {
           <Route path="welcome" element={<Welcome />} />
 
           <Route path="/d" element={<AuthViewWrapper />}>
-          <Route index path="budget" element={<BudgetUploadPage />} />
-
+            <Route index path="budget" element={<BudgetUploadPage />} />
+            <Route path="project-selection" element={<ProjectSelection />} />
+            <Route path="contracts" element={<ContractAndTenderUpload /> }/>
           </Route>
 
           <Route path="*" element={<FourZeroFour />} />
