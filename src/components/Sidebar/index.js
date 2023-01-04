@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
 import styled from "styled-components";
+import { setCurrentView } from "../../services/global/action";
 import colors from "../../theme/colors";
 
 const Sidebar = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -22,10 +24,13 @@ const Sidebar = (props) => {
   }, [pathname]);
 
   const handleNav = (id, path) => {
+    console.log(id)
     switch ((id, path)) {
       case 0:
         setActiveIndex(0);
+        dispatch(setCurrentView({ currentView: "budget" })); // check the role of the user login.
         navigate(path);
+
         break;
 
       case 1:
@@ -45,6 +50,7 @@ const Sidebar = (props) => {
       default:
         setActiveIndex(0);
         navigate(path);
+        dispatch(setCurrentView({ currentView: "budget" })); // check the role of the user login.
         break;
     }
   };
@@ -52,6 +58,7 @@ const Sidebar = (props) => {
     <StyledSidebar>
       <div className="sidebar__inner">
         {props.menu?.map((item) => {
+          console.log(item.id, activeIndex);
           return (
             <div
               key={item.id}
@@ -99,7 +106,7 @@ const StyledSidebar = styled.aside`
       p {
         text-align: center;
         font-weight: 700;
-        font-size: 11px;
+        font-size: 10px;
         line-height: 12px;
         display: flex;
         align-items: center;

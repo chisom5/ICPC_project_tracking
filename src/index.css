@@ -1,16 +1,11 @@
-@import url('../node_modules/bootstrap/dist/css/bootstrap.min.css');
+@import url("../node_modules/bootstrap/dist/css/bootstrap.min.css");
 
-@import url('../node_modules/antd/dist/antd.min.css');
+@import url("../node_modules/antd/dist/antd.min.css");
 
-body {
-  margin: 0;
-  font-family: "OpenSans"
-}
-
-p{
+p {
   margin: 0px;
 }
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }

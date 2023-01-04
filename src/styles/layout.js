@@ -20,7 +20,7 @@ export const MainContent = styled.section`
 export const OtherContent = styled.section`
   width: 100%;
   height: 100vh;
-  padding-left: 5.5rem;
+  padding-left: 4.8rem;
 
   header,
   .header {
@@ -30,7 +30,6 @@ export const OtherContent = styled.section`
     margin-bottom: 1.75rem;
 
     .title {
-      font-family: KPMG App;
       font-weight: normal;
       font-size: 2.25rem;
       line-height: 43px;
@@ -73,24 +72,43 @@ export const OtherContentContainer = styled(Box)`
 
 export const MiniHeaderStyle = styled.div`
   background: ${colors.modes.light.white};
-  padding: ${(props) =>
-    props["no-bPad"] ? " 20px 48px 0px 32px" : "20px 48px 20px 32px"};
-  height: auto;
+  padding-left: 32px; 
+  // padding: ${(props) => props["no-bPad"] ? "20px 48px 0px 32px" : "20px 48px 20px 32px"};
+  height: 54px;
   border: 1px solid #e8e9eb;
   display: flex;
   justify-content: space-between;
 
   .title {
-    // font-family: KPMG Light;
     color: ${colors.modes.light.neuralDark};
     font-weight: 600;
     font-size: 16px;
-    line-height: 22px;
+    line-height: 15px;
     display: flex;
     align-items: center;
     letter-spacing: 0.02em;
+    position: relative;
+    cursor: pointer;
   }
 
+  .header_past_title {
+    color: rgba(21, 39, 56, 0.25);
+    padding-right: 8px;
+  }
+  .header_current_title {
+    border-left: 1.4px solid ${colors.modes.light.danger};
+    padding-left: 8px;
+  }
+  .current_title_btab {
+    height: 3px;
+    width: -webkit-fill-available;
+    left: 155px;
+    bottom: 0px;
+    position: absolute;
+    background: ${colors.modes.light.danger};
+    pointer-events: none;
+    border-radius: 4px 4px 0px 0px;
+  }
   .tabs-nav {
     position: relative;
     display: flex;
