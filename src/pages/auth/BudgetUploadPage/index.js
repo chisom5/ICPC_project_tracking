@@ -1,25 +1,33 @@
 import React, { useState } from "react";
 import { MainContent, MiniHeaderStyle, Content } from "../../../styles/layout";
 import TableComponent from "./components/Table";
-
-import { BudgetUpload, BudgetAnomalies } from "./components/views";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  BudgetUpload,
+  BudgetAnomalies,
+  BudgetProjectName,
+} from "./components/views";
+import { setCurrentView } from "../../../services/globalReduxFunction/action";
 
 const BudgetuploadPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentView, setCurrentView] = useState("budget");
+  const { currentView } = useSelector((state) => state.global);
+  const dispatch = useDispatch();
 
   const handlePagination = (pagination) => {
     setCurrentPage(pagination.current);
   };
 
   const handlePreviewReport = () => {
-    setCurrentView("anomalies");
+    dispatch(setCurrentView({ currentView: "anomalies" }));
     // Budget Anomalies
   };
 
   const handleBack = () => {
-    if (currentView === "anomalies") setCurrentView("budget");
-    else if (currentView === "projectTitle") setCurrentView("anomalies");
+    if (currentView === "anomalies")
+      dispatch(setCurrentView({ currentView: "budget" }));
+    else if (currentView === "projectTitle")
+      dispatch(setCurrentView({ currentView: "anomalies" }));
   };
   return (
     <MainContent>
@@ -28,6 +36,9 @@ const BudgetuploadPage = () => {
           <p className="title">Budget / Project File Upload</p>
         ) : currentView === "anomalies" ? (
           <p className="title">Budget Anomalies</p>
+        ) : currentView === "projectTitle" ? (
+          // here the tabs
+          <p className="title">Budget Anomalies | Project Name</p>
         ) : null}
       </MiniHeaderStyle>
       <Content>
@@ -35,7 +46,6 @@ const BudgetuploadPage = () => {
           <BudgetUpload
             component={
               <TableComponent
-                currentView={currentView}
                 currentPage={currentPage}
                 handlePagination={handlePagination}
               />
@@ -47,7 +57,17 @@ const BudgetuploadPage = () => {
           <BudgetAnomalies
             component={
               <TableComponent
-                currentView={currentView}
+                currentPage={currentPage}
+                handlePagination={handlePagination}
+                handleBack={handleBack}
+              />
+            }
+          />
+        )}
+        {currentView === "projectTitle" && (
+          <BudgetProjectName
+            component={
+              <TableComponent
                 currentPage={currentPage}
                 handlePagination={handlePagination}
                 handleBack={handleBack}

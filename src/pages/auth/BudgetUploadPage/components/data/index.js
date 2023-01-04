@@ -1,4 +1,4 @@
-export const Data = [
+export const BudgetData = [
   {
     id: 1,
     dataFile: "Executive Budget",
@@ -15,4 +15,66 @@ export const Data = [
     dataFile: "Other Projects",
     budgetYear: "",
   },
+];
+
+export const AnomaliesData = [
+  {
+    id: 1,
+    projectTitle: "Road Construction",
+    projectCode: "567882",
+    projectType: 'Hard',
+    budgetAmount: '#50,000,000.00',
+    sector: 'Transportation'
+  },
+  {
+    id: 2,
+    projectTitle: "Training",
+    projectCode: "789636",
+    projectType: 'Soft',
+    budgetAmount: '#50,000,000.00',
+    sector: 'Health care'
+  },
+
+  {
+    id: 3,
+    projectTitle: "Road Renovation",
+    projectCode: "987656",
+    projectType: 'Hard',
+    budgetAmount: '#50,000,000.00',
+    sector: 'Transportation'
+  },
+  {
+    id: 4,
+    projectTitle: "Services",
+    projectCode: "987656",
+    projectType: 'Soft',
+    budgetAmount: '#50,000,000.00',
+    sector: 'Education'
+  },
+  {
+    id: 5,
+    projectTitle: "Road Construction",
+    projectCode: "567882",
+    projectType: 'Hard',
+    budgetAmount: '#50,000,000.00',
+    sector: 'Transportation'
+  },
+  {
+    id: 6,
+    projectTitle: "Supplies",
+    projectCode: "789636",
+    projectType: 'Soft',
+    budgetAmount: '#50,000,000.00',
+    sector: 'Education'
+  },
+  
+  {
+    id: 7,
+    projectTitle: "Road Construction",
+    projectCode: "987656",
+    projectType: 'Hard',
+    budgetAmount: '#50,000,000.00',
+    sector: 'Health care'
+  },
+ 
 ];

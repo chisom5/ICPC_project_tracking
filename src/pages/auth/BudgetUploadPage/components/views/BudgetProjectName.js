@@ -1,12 +1,12 @@
 import React from "react";
 import { OtherContentContainer } from "../../../../../styles/layout";
 
-const BudgetAnomalies = ({component}) => {
+const BudgetProjectName = ({ component }) => {
   return (
-    <OtherContentContainer padding={"17px 16px 0px 16px"} >
+    <OtherContentContainer padding={"17px 16px 0px 16px"}>
       {component}
     </OtherContentContainer>
   );
 };
 
-export default BudgetAnomalies;
+export default BudgetProjectName;

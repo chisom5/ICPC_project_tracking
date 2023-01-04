@@ -3,7 +3,6 @@ import { UploadContainer } from "../../../../../styles/layout";
 import { Box, Text, Label } from "../../../../../components/Primitives";
 import { AntSelect } from "../../../../../components/AntFormik";
 import { ButtonOutlined } from "../../../../../components/Button";
-import TableComponent from "../Table";
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import colors from "../../../../../theme/colors";

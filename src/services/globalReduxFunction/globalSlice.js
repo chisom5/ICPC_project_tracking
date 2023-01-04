@@ -10,6 +10,7 @@ const initialState = {
   locations: [],
   isFetching: false,
   logout: false,
+  currentView: "budget",
 };
 
 const requestingHome = (state, loading) =>
@@ -97,6 +98,13 @@ export const globalSlice = createSlice({
 
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(GLOBAL_CONSTANT.currentViewSuccess, (state, action) => {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    });
+
     builder.addCase(GLOBAL_CONSTANT.setError, (state, action) => {
       return setErrorAction(state, action);
     });

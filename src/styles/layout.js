@@ -19,7 +19,8 @@ export const MainContent = styled.section`
 
 export const OtherContent = styled.section`
   width: 100%;
-  padding-left: 4.5rem;
+  height: 100vh;
+  padding-left: 5.5rem;
 
   header,
   .header {
@@ -39,7 +40,7 @@ export const OtherContent = styled.section`
 `;
 export const Content = styled.div`
   width: 100%;
-  padding-left: 3rem;
+  padding-left: 2rem;
   margin-top: 1.25rem;
   padding-right: 2rem;
 

@@ -8,7 +8,7 @@ import sessionStorage from "redux-persist/lib/storage/session";
 
 // reducers
 import forgotPasswordReducer from "./forgetPassword/forgotPasswordSlice";
-// import globalReducer from './globalReduxFunction/globalSlice';
+import globalReducer from './globalReduxFunction/globalSlice';
 import themeReducer from "../theme/themeSlice";
 // import homeReducer from "../containers/Landing/reduxFunction/LandingSlice";
 // import introLetterReducer from "../containers/IntroductionLetter/reduxFunction/introLetterSlice";
@@ -18,6 +18,7 @@ import themeReducer from "../theme/themeSlice";
 const rootReducer = combineReducers({
   theme: themeReducer,
   forgetP: forgotPasswordReducer,
+  global: globalReducer
 //   global: globalReducer,
 //   "auth": authReducer,
 //   home: homeReducer,

@@ -6,79 +6,119 @@ import { ButtonOutlined } from "../../../../../components/Button";
 import { Img, Box } from "../../../../../components/Primitives";
 import SVG from "react-inlinesvg";
 import colors from "../../../../../theme/colors";
-import { Data } from "../data";
+import { BudgetData, AnomaliesData } from "../data";
+import { useSelector } from "react-redux";
 
-const TableComponent = ({
-  currentPage,
-  handlePagination,
-  currentView,
-  handleBack,
-}) => {
-  const data = Data;
-  const columns = [
-    {
-      title: "S/N",
-      dataIndex: "RefNO",
-      sorter: (a, b) => a.RefNO - b.RefNO,
-      //   render: (name) => {
-      //     return (
-      //       <div className="table_display">
+const TableComponent = ({ currentPage, handlePagination, handleBack }) => {
+  const { currentView } = useSelector((state) => state.global);
+  const data = currentView === "budget" ? BudgetData : AnomaliesData;
+  const columns =
+    currentView === "budget"
+      ? [
+          {
+            title: "S/N",
+            dataIndex: "id",
+            sorter: (a, b) => a.id - b.id,
+            //   render: (name) => {
+            //     return (
+            //       <div className="table_display">
 
-      //         <span>{name}</span>
-      //       </div>
-      //     );
-      //   },
-    },
-    {
-      title: "Data File",
-      dataIndex: "RefNO",
-      sorter: (a, b) => a.RefNO - b.RefNO,
-    },
-    {
-      title: "Budget Year",
-      dataIndex: "RefNO",
-      sorter: (a, b) => a.RefNO - b.RefNO,
-    },
-    {
-      title: "Action",
-      dataIndex: "id",
-      render: (id, obj) => {
-        return (
-          <Dropdown
-            overlay={
-              <Menu
-                items={[
-                  {
-                    key: "1",
-                    label: <p style={{ cursor: "pointer" }}>View</p>,
-                  },
-                  {
-                    key: "2",
-                    label: <p style={{ cursor: "pointer" }}>Download</p>,
-                  },
-                  {
-                    key: "3",
-                    label: <p style={{ cursor: "pointer" }}>Remove</p>,
-                  },
-                ]}
-              />
-            }
-            trigger={["click"]}
-          >
-            <div className="table_action">
-              <SVG
-                src={
-                  require("../../../../../assets/images/table-action.svg")
-                    .default
-                }
-                alt="action"
-              />
-            </div>
-          </Dropdown>
-        );
-      },
-    },
-  ];
+            //         <span>{name}</span>
+            //       </div>
+            //     );
+            //   },
+          },
+          {
+            title: "Data File",
+            dataIndex: "dataFile",
+            sorter: (a, b) => a.RefNO - b.RefNO,
+          },
+          {
+            title: "Budget Year",
+            dataIndex: "budgetYear",
+            sorter: (a, b) => a.RefNO - b.RefNO,
+          },
+          {
+            title: "Action",
+            dataIndex: "id",
+            render: (id, obj) => {
+              return (
+                <Dropdown
+                  overlay={
+                    <Menu
+                      items={[
+                        {
+                          key: "1",
+                          label: <p style={{ cursor: "pointer" }}>View</p>,
+                        },
+                        {
+                          key: "2",
+                          label: <p style={{ cursor: "pointer" }}>Download</p>,
+                        },
+                        {
+                          key: "3",
+                          label: <p style={{ cursor: "pointer" }}>Remove</p>,
+                        },
+                      ]}
+                    />
+                  }
+                  trigger={["click"]}
+                >
+                  <div className="table_action">
+                    <SVG
+                      src={
+                        require("../../../../../assets/images/table-action.svg")
+                          .default
+                      }
+                      alt="action"
+                    />
+                  </div>
+                </Dropdown>
+              );
+            },
+          },
+        ]
+      : [
+          {
+            title: "Project Title",
+            dataIndex: "projectTitle",
+            sorter: (a, b) => a.projectTitle - b.projectTitle,
+            //   render: (name) => {
+            //     return (
+            //       <div className="table_display">
+
+            //         <span>{name}</span>
+            //       </div>
+            //     );
+            //   },
+          },
+          {
+            title: "Project Code",
+            dataIndex: "projectCode",
+            sorter: (a, b) => a.projectCode - b.projectCode,
+          },
+          {
+            title: "Project Type",
+            dataIndex: "projectType",
+            sorter: (a, b) => a.projectType - b.projectType,
+          },
+
+          {
+            title: "Budget Amount",
+            dataIndex: "budgetAmount",
+            sorter: (a, b) => a.budgetAmount - b.budgetAmount,
+          },
+
+          {
+            title: "Sector",
+            dataIndex: "sector",
+            sorter: (a, b) => a.sector - b.sector,
+          },
+          {
+            title: "Action",
+            dataIndex: "RefNO",
+          },
+        ];
   return (
     <TableStyle
       width={currentView === "budget" ? "65%" : "100%"}
@@ -112,19 +152,39 @@ const TableComponent = ({
             bg={colors.modes.light.inputBgColor}
             border={"1px solid #D3D5D7"}
           />
-          <SearchInput
-            placeholder="Search Description"
-            before={
-              <Img
-                src={
-                  require("../../../../../assets/images/bx-search.svg").default
-                }
-              />
-            }
-            height={"32px"}
-            bg={colors.modes.light.inputBgColor}
-            border={"1px solid #D3D5D7"}
-          />
+
+          {currentView === "anomalies" ? (
+            // show select dropdown
+            <SearchInput
+              placeholder="Search Description"
+              before={
+                <Img
+                  src={
+                    require("../../../../../assets/images/bx-search.svg")
+                      .default
+                  }
+                />
+              }
+              height={"32px"}
+              bg={colors.modes.light.inputBgColor}
+              border={"1px solid #D3D5D7"}
+            />
+          ) : currentView === "budget" ? (
+            <SearchInput
+              placeholder="Search Description"
+              before={
+                <Img
+                  src={
+                    require("../../../../../assets/images/bx-search.svg")
+                      .default
+                  }
+                />
+              }
+              height={"32px"}
+              bg={colors.modes.light.inputBgColor}
+              border={"1px solid #D3D5D7"}
+            />
+          ) : null}
         </Box>
 
         {currentView !== "budget" ? (
@@ -143,7 +203,7 @@ const TableComponent = ({
             hover={colors.modes.light.danger}
             onClick={() => handleBack()}
           >
-            Close
+            {currentView === "anomalies" ? "Close" : "Back"}
           </ButtonOutlined>
         ) : null}
       </TableTopHeader>

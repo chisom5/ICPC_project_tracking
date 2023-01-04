@@ -27,84 +27,52 @@ export const clearSuccessMessage = () => (dispatch) => {
   dispatch(globalActionsSuccess(actionType));
 };
 
-export const openLogoutModal = () => (dispatch) =>{
+export const openLogoutModal = () => (dispatch) => {
   const actionType = "logout";
   dispatch(globalActionsSuccess(actionType));
 };
 
-export const dismissLogoutModal = () => (dispatch) =>{
+export const dismissLogoutModal = () => (dispatch) => {
   const actionType = "closeLogout";
   dispatch(globalActionsSuccess(actionType));
 };
 
-export const fetchCountries = (history) => {
-  const actionType = "getCountries";
-  return async (dispatch) => {
-    try {
-      dispatch(globalActionsRequested(actionType, true));
-      const res = await makeGetRequest(`/api/getCountry`);
-      if (res.status !== 200) {
-        return dispatch(globalActionsError(actionType, res.data));
-      } else {
-        console.log(res);
-        dispatch(globalActionsSuccess(actionType, res.data));
-      }
-    } catch (error) {
-      console.log(error);
-      if (error.response) {
-        if (error.response.status === 401) {
-          history.push(`/`);
-          sessionStorage.removeItem("Intro_LETTER_Portal_Token");
-        } else {
-          return dispatch(
-            globalActionsError(actionType, error.response.data.msg)
-          );
-        }
-      } else if (error.request) {
-        // console.log(error.request)
-        return dispatch(globalActionsError(actionType, "Network error"));
-      } else {
-        // Something happened in setting up the request and triggered an error
-        console.log("axios", error.message);
-        dispatch(globalActionsError(actionType, "Network error"));
-      }
-    }
-  };
+export const setCurrentView = (payload) => (dispatch) => {
+  const actionType = "currentView";
+  dispatch(globalActionsSuccess(actionType, payload));
 };
 
-export const fetchLocations = (history) => {
-  const actionType = "getLocations";
-  return async (dispatch) => {
-    try {
-      dispatch(globalActionsRequested(actionType, true));
-      const res = await makeGetRequest(`/api/GetLocations`);
-      if (res.status !== 200) {
-        return dispatch(globalActionsError(actionType, res.data));
-      } else {
-        console.log(res);
-        dispatch(globalActionsSuccess(actionType, res.data));
-      }
-    } catch (error) {
-      if (error.response) {
-        if (error.response.status === 401) {
-          history.push(`/`);
-          sessionStorage.removeItem("Intro_LETTER_Portal_Token");
-        } else {
-          return dispatch(
-            globalActionsError(actionType, error.response.data.msg)
-          );
-        }
-      } else if (error.request) {
-        // console.log(error.request)
-        return dispatch(globalActionsError(actionType, "Network error"));
-      } else {
-        // Something happened in setting up the request and triggered an error
-        console.log("axios", error.message);
-      }
-    }
-  };
-};
-
-export const signup =()=>{
-
-}
+// export const fetchCountries = (history) => {
+//   const actionType = "getCountries";
+//   return async (dispatch) => {
+//     try {
+//       dispatch(globalActionsRequested(actionType, true));
+//       const res = await makeGetRequest(`/api/getCountry`);
+//       if (res.status !== 200) {
+//         return dispatch(globalActionsError(actionType, res.data));
+//       } else {
+//         console.log(res);
+//         dispatch(globalActionsSuccess(actionType, res.data));
+//       }
+//     } catch (error) {
+//       console.log(error);
+//       if (error.response) {
+//         if (error.response.status === 401) {
+//           history.push(`/`);
+//           sessionStorage.removeItem("Intro_LETTER_Portal_Token");
+//         } else {
+//           return dispatch(
+//             globalActionsError(actionType, error.response.data.msg)
+//           );
+//         }
+//       } else if (error.request) {
+//         // console.log(error.request)
+//         return dispatch(globalActionsError(actionType, "Network error"));
+//       } else {
+//         // Something happened in setting up the request and triggered an error
+//         console.log("axios", error.message);
+//         dispatch(globalActionsError(actionType, "Network error"));
+//       }
+//     }
+//   };
+// }
