@@ -19,7 +19,7 @@ export const MainContent = styled.section`
 
 export const OtherContent = styled.section`
   width: 100%;
-  height: 100vh;
+  height: 100%;
   padding-left: 4.8rem;
 
   header,
@@ -54,26 +54,32 @@ export const Content = styled.div`
 export const UploadContainer = styled(Box)`
   background: #ffffff;
   border-radius: 10px;
-  padding: 21px 51px;
+  padding: 21px 42px;
   width: 90%;
 
   .field-bg {
     .ant-select-selector {
       background: ${colors.modes.light.inputBgColor};
+      height: 48px !important;
+      border-radius: 4px;
     }
   }
 `;
 
 export const OtherContentContainer = styled(Box)`
-  background: #ffffff;
-  border-radius: 10px;
   width: 100%;
 `;
 
+export const TableWrapper = styled(Box)`
+width: 100%;
+background-color: ${colors.modes.light.white};
+border-radius: 10px;
+`
 export const MiniHeaderStyle = styled.div`
   background: ${colors.modes.light.white};
-  padding-left: 32px; 
-  // padding: ${(props) => props["no-bPad"] ? "20px 48px 0px 32px" : "20px 48px 20px 32px"};
+  padding-left: 32px;
+  // padding: ${(props) =>
+    props["no-bPad"] ? "20px 48px 0px 32px" : "20px 48px 20px 32px"};
   height: 54px;
   border: 1px solid #e8e9eb;
   display: flex;
@@ -102,12 +108,17 @@ export const MiniHeaderStyle = styled.div`
   .current_title_btab {
     height: 3px;
     width: -webkit-fill-available;
-    left: 155px;
     bottom: 0px;
     position: absolute;
     background: ${colors.modes.light.danger};
     pointer-events: none;
     border-radius: 4px 4px 0px 0px;
+  }
+  .budget_tab_left {
+    left: 155px;
+  }
+  .contract_tab_left {
+    left: 172px;
   }
   .tabs-nav {
     position: relative;

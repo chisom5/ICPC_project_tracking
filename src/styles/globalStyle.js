@@ -53,6 +53,8 @@ export const GlobalStyle = createGlobalStyle`
   p{
     margin: 0px;
   }
-  
+  .ant-form-item-explain-error{
+    color: #ff4d4f;
+  }
   
     `;

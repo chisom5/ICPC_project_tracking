@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { UploadContainer } from "../../../../../styles/layout";
 import { Box, Text, Label } from "../../../../../components/Primitives";
 import { AntSelect } from "../../../../../components/AntFormik";
 import { ButtonOutlined } from "../../../../../components/Button";
+import FileInput from "../uploadInput";
+import {convertBase64} from '../../../../../utils';
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import colors from "../../../../../theme/colors";
+import update from "immutability-helper";
 
 const Schema = Yup.object().shape({
   email: Yup.string().required("Username is required"),
@@ -24,6 +27,8 @@ const BudgetUpload = ({
   component,
   ...props
 }) => {
+  const [filePayload, setFilePayload] = useState([]);
+
   const value = {
     email: "",
     password: "",
@@ -33,6 +38,44 @@ const BudgetUpload = ({
     console.log("he");
   };
 
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+
+    if (files.length > 0) {
+      let index = filePayload.findIndex((i) => i.name === name);
+      // let imgSrc = URL.createObjectURL(files[0]);
+
+      // const fileSize = Math.round(files[0].size / 1024);
+      convertBase64(files[0]).then((data) => {
+        if (index === -1) {
+          setFilePayload([
+            ...filePayload,
+            {
+              name: name,
+              fileType: files[0].type,
+              filename: files[0].name,
+              PatnerApprovalFile: data,
+            },
+          ]);
+        } else {
+          setFilePayload((filePayload) =>
+            update(filePayload, {
+              [index]: {
+                $merge: {
+                  name: name,
+                  fileType: files[0].type,
+                  filename: files[0].name,
+                  PatnerApprovalFile: data,
+                },
+              },
+            })
+          );
+        }
+      });
+    }
+  };
+
+
   return (
     <UploadContainer>
       <Formik
@@ -40,7 +83,7 @@ const BudgetUpload = ({
         validationSchema={Schema}
         onSubmit={handleAdd}
       >
-        {({ touched, isValid, isSubmitting, submitCount }) => (
+        {({ touched, isValid, isSubmitting, submitCount, errors }) => (
           <Form style={{ width: "100%" }}>
             <Box display="flex" justifyContent="space-between">
               <Box className="field-bg" width={"35%"}>
@@ -58,7 +101,7 @@ const BudgetUpload = ({
                   name="email"
                   width="100%"
                   style={{
-                    height: "40px",
+                    height: "48px",
                     borderRadius: "4px",
                   }}
                   placeholder="Select Project Tracking Year"
@@ -77,7 +120,7 @@ const BudgetUpload = ({
               </Box>
             </Box>
 
-            <Box display="flex" style={{ gap: "18px" }} alignItems="center">
+            <Box display="flex" style={{ gap: "18px" }}>
               <Box className="field-bg" width={"60%"}>
                 <Label
                   color="labelColor"
@@ -86,71 +129,32 @@ const BudgetUpload = ({
                   lineHeight="16px"
                   mb={"14px"}
                 >
-                  Type of Budget / Project
+                  Upload Schedule
                 </Label>
-                <Field
-                  name="password"
-                  type="text"
-                  style={{
-                    width: "100%",
-                    height: "40px",
-                    borderRadius: "4px",
-                  }}
-                  component={AntSelect}
-                  submitCount={submitCount}
-                  hasFeedback
+
+                <FileInput
+                  handleChange={(e) => handleFileChange(e)}
+                  file={
+                    filePayload &&
+                    filePayload[0] !== undefined &&
+                    filePayload[0]
+                  }
+                  bg={colors.modes.light.inputBgColor}
+                  name={"partnerApproval"}
                 />
+                {errors.ImmigrationSalary && (
+                  <div className="ant-form-item-explain ant-form-item-explain-error">
+                    <div role="alert"> {errors.ImmigrationSalary}</div>
+                  </div>
+                )}
               </Box>
 
-              <Box className="field-bg" width={"40%"}>
-                <Label
-                  color="labelColor"
-                  fontSize={1}
-                  fontWeight={600}
-                  lineHeight="16px"
-                  mb={"14px"}
-                >
-                  Budget Year
-                </Label>
-                <Field
-                  name="password"
-                  type="text"
-                  style={{
-                    width: "100%",
-                    height: "40px",
-                    borderRadius: "4px",
-                  }}
-                  component={AntSelect}
-                  submitCount={submitCount}
-                  hasFeedback
-                />
-              </Box>
-
-              <Box className="field-bg" width={"60%"}>
-                <Label
-                  color="labelColor"
-                  fontSize={1}
-                  fontWeight={600}
-                  lineHeight="16px"
-                  mb={"14px"}
-                >
-                  Select Data File
-                </Label>
-                <Field
-                  name="password"
-                  type="text"
-                  style={{
-                    width: "100%",
-                    height: "40px",
-                    borderRadius: "4px",
-                  }}
-                  component={AntSelect}
-                  submitCount={submitCount}
-                  hasFeedback
-                />
-              </Box>
-
-              <Box display="flex" alignItems="center">
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                height="113px"
+              >
                 <ButtonOutlined
                   width={"auto"}
                   p={"0px 19px"}

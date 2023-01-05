@@ -1,3 +1,3 @@
-export {default as BudgetUpload} from './BudgetUpload';
-export {default as BudgetAnomalies} from './BudgetAnomalies'
-export {default as BudgetProjectName} from './BudgetProjectName';
+export {default as ContractsUpload} from './ContractsUpload';
+export {default as ContractsAnomalies} from './ContractsAnomalies'
+export {default as ContractsProjectName} from './ContractsProjectName';
