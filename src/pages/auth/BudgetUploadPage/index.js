@@ -43,7 +43,7 @@ const BudgetuploadPage = () => {
           <div className="title">
             <span className="header_past_title">Budget Anomalies</span>{" "}
             <p className="header_current_title">{SelectedAnomalData[0]?.projectTitle}</p>
-            <span className="current_title_btab"></span>
+            <span className="current_title_btab budget_tab_left"></span>
           </div>
         ) : null}
       </MiniHeaderStyle>

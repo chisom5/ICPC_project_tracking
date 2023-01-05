@@ -8,25 +8,17 @@ import sessionStorage from "redux-persist/lib/storage/session";
 
 // reducers
 import forgotPasswordReducer from "./forgetPassword/forgotPasswordSlice";
-import globalReducer from './global/globalSlice';
-import budgetRedcer from './budgetPage/budgetSlice'
+import globalReducer from "./global/globalSlice";
+import budgetRedcer from "./budgetPage/budgetSlice";
+import contractsReducer from "./contracts/contractsSlice";
 import themeReducer from "../theme/themeSlice";
-// import homeReducer from "../containers/Landing/reduxFunction/LandingSlice";
-// import introLetterReducer from "../containers/IntroductionLetter/reduxFunction/introLetterSlice";
-// import RequestReferenceReducer from "../containers/RequestReference/reduxFunction/requestReferenceSlice";
-// import TrackRequestReducerReducer from '../containers/TrackRequest/reduxFunction/trackRequestSlice';
 
 const rootReducer = combineReducers({
   theme: themeReducer,
   forgetP: forgotPasswordReducer,
   global: globalReducer,
-  budget: budgetRedcer
-//   global: globalReducer,
-//   "auth": authReducer,
-//   home: homeReducer,
-//   introLetter: introLetterReducer,
-//   reference: RequestReferenceReducer,
-//   track: TrackRequestReducerReducer
+  budget: budgetRedcer,
+  contract: contractsReducer,
 });
 
 const persistConfig = {
