@@ -10,9 +10,14 @@ import { convertBase64 } from "../../../../../utils";
 import update from "immutability-helper";
 import TableTopContent from "../../../../../components/TableTopContent";
 import colors from "../../../../../theme/colors";
+import { openModal } from "../../../../../services/projectSelection/action";
+import { useDispatch, useSelector } from "react-redux";
+import { ProjectSelectionCriteriaModal, SaveSampleSelectedModal } from "../modal";
 
 const ProjectSelectionView = ({ component }) => {
+  const dispatch = useDispatch();
   const [filePayload, setFilePayload] = useState([]);
+  const { sampleSelectedText } = useSelector((state) => state.projectSelection);
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
@@ -51,6 +56,16 @@ const ProjectSelectionView = ({ component }) => {
     }
   };
 
+  const openModalForSelectionCriteria = () => {
+    dispatch(openModal({ selectionCriteria: true }));
+  };
+  const openModalForSampleSelected = () => {
+    if (sampleSelectedText === "Save") {
+      dispatch(
+        openModal({ sampleSelected: true, sampleSelectedText: "Finalise" })
+      );
+    }
+  };
   return (
     <OtherContentContainer>
       <TableTopContent>
@@ -104,6 +119,7 @@ const ProjectSelectionView = ({ component }) => {
             bg={colors.modes.light.white}
             borderRadius={"5px"}
             hover={colors.modes.light.danger}
+            onClick={openModalForSelectionCriteria}
           >
             Adjust Project Selection Criteria
           </ButtonOutlined>
@@ -119,14 +135,18 @@ const ProjectSelectionView = ({ component }) => {
             bg={colors.modes.light.white}
             borderRadius={"5px"}
             hover={colors.modes.light.danger}
+            onClick={openModalForSampleSelected}
           >
-            Save Sample Selected 
+            {`${sampleSelectedText} Sample Selected`}
             {/* Finalise */}
           </ButtonOutlined>
         </Box>
       </TableTopContent>
 
       <TableWrapper padding={"17px 16px 0px 16px"}>{component}</TableWrapper>
+
+      <ProjectSelectionCriteriaModal />
+      <SaveSampleSelectedModal />
     </OtherContentContainer>
   );
 };

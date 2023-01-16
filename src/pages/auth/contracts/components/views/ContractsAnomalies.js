@@ -4,10 +4,12 @@ import {
   TableWrapper,
 } from "../../../../../styles/layout";
 import { Box, Label } from "../../../../../components/Primitives";
+import { ButtonOutlined } from "../../../../../components/Button";
 import FileInput from "../uploadInput";
 import { convertBase64 } from "../../../../../utils";
 import update from "immutability-helper";
 import TableTopContent from "../../../../../components/TableTopContent";
+import colors from "../../../../../theme/colors";
 
 const ContractsAnomalies = ({ component }) => {
   const [filePayload, setFilePayload] = useState([]);
@@ -52,7 +54,7 @@ const ContractsAnomalies = ({ component }) => {
   return (
     <OtherContentContainer>
       <TableTopContent>
-        <Box className="field-bg" width={"40%"}>
+        <Box className="field-bg" width="40%">
           <Label
             color="labelColor"
             fontSize={1}
@@ -60,14 +62,33 @@ const ContractsAnomalies = ({ component }) => {
             lineHeight="16px"
             mb={"14px"}
           >
-            Upload List of Contracting Company Directors.
+            Upload Executing Agencies and Constituency Data
           </Label>
 
-          <FileInput
-            handleChange={(e) => handleFileChange(e)}
-            file={filePayload && filePayload[0] !== undefined && filePayload[0]}
-            name={"partnerApproval"}
-          />
+          <Box display="flex" alignItems="center" style={{ gap: "12px" }}>
+            <FileInput
+              handleChange={(e) => handleFileChange(e)}
+              file={
+                filePayload && filePayload[0] !== undefined && filePayload[0]
+              }
+              name={"partnerApproval"}
+            />
+            <ButtonOutlined
+              width={"auto"}
+              p={"0px 12px"}
+              height="32px"
+              fontWeight={6}
+              fontSize={"12px"}
+              letterSpacing={"0.01em"}
+              borderColor={colors.modes.light.danger}
+              color={colors.modes.light.danger}
+              bg={colors.modes.light.white}
+              borderRadius={"5px"}
+              hover={colors.modes.light.danger}
+            >
+              Upload
+            </ButtonOutlined>
+          </Box>
         </Box>
       </TableTopContent>
 

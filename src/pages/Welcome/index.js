@@ -49,11 +49,14 @@ const WelcomeCardStyle = styled.section`
 `;
 const Welcome = () => {
   const navigate = useNavigate();
-  const [role] = useState("CEPTG");
+  // const [role] = useState("CEPTG");
+  const [role] = useState('MDA')
 
   const handleInitiateProject = () => {
     if (role === "CEPTG") {
       navigate("/d/budget");
+    }else if(role === 'MDA'){
+      navigate("/d/projects")
     }
   };
   const handleContinueProject = () => {
@@ -109,7 +112,7 @@ const Welcome = () => {
                 "card-item",
                 role === "CEPTG" ? "disable-click" : "card-click",
               ].join(" ")}
-              onClick={handleContinueProject}
+              onClick={handleInitiateProject}
             >
               <Img src={require("../../assets/images/welcome_2.svg").default} />
 

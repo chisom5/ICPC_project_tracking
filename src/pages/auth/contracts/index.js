@@ -10,9 +10,12 @@ import {
 import { setCurrentView } from "../../../services/global/action";
 import { Dropdown } from "antd";
 import { Img } from "../../../components/Primitives";
-import SVG from 'react-inlinesvg';
+import SVG from "react-inlinesvg";
+import { LogoutModal } from "../../../components/Modal";
 
 const ContractAndTenderUpload = () => {
+  // const [role] = useState('CEPTG')
+  const [role] = useState("MDA");
   const [currentPage, setCurrentPage] = useState(1);
   const { currentView, SelectedAnomalData } = useSelector(
     (state) => state.global
@@ -51,7 +54,14 @@ const ContractAndTenderUpload = () => {
         ) : currentView === "projectTitle" ? (
           // here the tabs
           <div className="title">
-            <span className="header_past_title">Contracts Anomalies</span>{" "}
+            <span
+              className="header_past_title"
+              onClick={() =>
+                dispatch(setCurrentView({ currentView: "anomalies" }))
+              }
+            >
+              Contracts Anomalies
+            </span>{" "}
             <p className="header_current_title">
               {SelectedAnomalData[0]?.projectTitle}
             </p>
@@ -298,6 +308,7 @@ const ContractAndTenderUpload = () => {
           />
         )}
       </Content>
+      <LogoutModal />
     </MainContent>
   );
 };

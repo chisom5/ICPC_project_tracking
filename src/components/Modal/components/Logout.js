@@ -4,7 +4,7 @@ import { Button, Modal } from "antd";
 import SVG from "react-inlinesvg";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {dismissLogoutModal} from '../../../services/globalReduxFunction/action';
+import {dismissLogoutModal} from '../../../services/global/action';
 
 const LogoutContent = styled.div`
   display: grid;
@@ -69,7 +69,7 @@ const LogoutModal = () => {
         <div className="svg_container">
           <SVG
             src={
-              require("../../../assets/images/svg/error-warning.svg").default
+              require("../../../assets/images/error-warning.svg").default
             }
             alt="error"
           />

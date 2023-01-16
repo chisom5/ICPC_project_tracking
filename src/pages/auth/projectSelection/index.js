@@ -4,8 +4,12 @@ import TableComponent from "./components/Table";
 import { useSelector, useDispatch } from "react-redux";
 import { ProjectSelectionView } from "./components/views";
 import { Img } from "../../../components/Primitives";
+import { LogoutModal } from "../../../components/Modal";
 
 const ProjectSelection = () => {
+  // const [role] = useState('CEPTG')
+  const [role] = useState('MDA')
+
   const [currentPage, setCurrentPage] = useState(1);
 
   const dispatch = useDispatch();
@@ -97,6 +101,7 @@ const ProjectSelection = () => {
           }
         />
       </Content>
+      <LogoutModal />
     </MainContent>
   );
 };

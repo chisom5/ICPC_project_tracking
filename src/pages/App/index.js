@@ -12,6 +12,7 @@ import FourZeroFour from "../notFound";
 import BudgetUploadPage from "../auth/BudgetUploadPage";
 import ProjectSelection from "../auth/projectSelection";
 import ContractAndTenderUpload from "../auth/contracts";
+import Projects from "../auth/projects";
 
 class App extends Component {
   render() {
@@ -27,6 +28,7 @@ class App extends Component {
             <Route index path="budget" element={<BudgetUploadPage />} />
             <Route path="project-selection" element={<ProjectSelection />} />
             <Route path="contracts" element={<ContractAndTenderUpload /> }/>
+            <Route path="projects" element={<Projects />}/>
           </Route>
 
           <Route path="*" element={<FourZeroFour />} />

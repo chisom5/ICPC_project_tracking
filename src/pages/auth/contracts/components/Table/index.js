@@ -114,8 +114,8 @@ const TableComponent = ({
           currentView !== "projectTitle"
             ? {
                 total: data?.length,
-                defaultPageSize: 10,
-                pageSize: 10,
+                defaultPageSize: currentView.includes("budget") ? 3 : 10,
+                pageSize: currentView.includes("budget") ? 3 : 10,
                 defaultCurrent: currentPage,
               }
             : false

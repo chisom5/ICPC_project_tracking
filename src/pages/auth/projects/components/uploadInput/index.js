@@ -11,7 +11,7 @@ const StyledContainer = styled.div`
   border-radius: 4px;
   height: 48px;
   width: 100%;
-  
+
   .inputfile {
     position: absolute;
     top: 0;

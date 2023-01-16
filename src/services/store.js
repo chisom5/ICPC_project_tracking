@@ -11,6 +11,8 @@ import forgotPasswordReducer from "./forgetPassword/forgotPasswordSlice";
 import globalReducer from "./global/globalSlice";
 import budgetRedcer from "./budgetPage/budgetSlice";
 import contractsReducer from "./contracts/contractsSlice";
+import projectSelectionReducer from './projectSelection/projectSelectionSlice';
+import projectsReducer from './projects/projectsSlice'
 import themeReducer from "../theme/themeSlice";
 
 const rootReducer = combineReducers({
@@ -19,6 +21,8 @@ const rootReducer = combineReducers({
   global: globalReducer,
   budget: budgetRedcer,
   contract: contractsReducer,
+  projectSelection: projectSelectionReducer,
+  projects: projectsReducer
 });
 
 const persistConfig = {

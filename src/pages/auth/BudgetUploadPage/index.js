@@ -8,8 +8,12 @@ import {
   BudgetProjectName,
 } from "./components/views";
 import { setCurrentView } from "../../../services/global/action";
+import { LogoutModal } from "../../../components/Modal";
 
 const BudgetuploadPage = () => {
+  // const [role] = useState("CEPTG");
+  const [role] = useState("MDA");
+
   const [currentPage, setCurrentPage] = useState(1);
   const { currentView, SelectedAnomalData } = useSelector(
     (state) => state.global
@@ -41,8 +45,17 @@ const BudgetuploadPage = () => {
         ) : currentView === "projectTitle" ? (
           // here the tabs
           <div className="title">
-            <span className="header_past_title">Budget Anomalies</span>{" "}
-            <p className="header_current_title">{SelectedAnomalData[0]?.projectTitle}</p>
+            <span
+              className="header_past_title"
+              onClick={() =>
+                dispatch(setCurrentView({ currentView: "anomalies" }))
+              }
+            >
+              Budget Anomalies
+            </span>{" "}
+            <p className="header_current_title">
+              {SelectedAnomalData[0]?.projectTitle}
+            </p>
             <span className="current_title_btab budget_tab_left"></span>
           </div>
         ) : null}
@@ -82,6 +95,7 @@ const BudgetuploadPage = () => {
           />
         )}
       </Content>
+      <LogoutModal />
     </MainContent>
   );
 };

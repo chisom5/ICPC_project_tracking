@@ -1,58 +1,65 @@
-import CONTRACTS_CONSTANT from "./type";
+import PROJECTS_CONSTANT from "./type";
 // import { makeGetRequest } from "./api";
 
-const contractsActionSuccess = (actionType, payload) => ({
-  type: CONTRACTS_CONSTANT[`${actionType}Success`],
+const projectsActionSuccess = (actionType, payload) => ({
+  type: PROJECTS_CONSTANT[`${actionType}Success`],
   payload,
 });
 
-const contractsActionRequested = (actionType) => ({
-  type: CONTRACTS_CONSTANT[`${actionType}Requested`],
+const projectsActionRequested = (actionType) => ({
+  type: PROJECTS_CONSTANT[`${actionType}Requested`],
 });
 
-const contractsActionError = (actionType, error) => ({
-  type: CONTRACTS_CONSTANT[`${actionType}Error`],
+const projectsActionError = (actionType, error) => ({
+  type: PROJECTS_CONSTANT[`${actionType}Error`],
   error,
 });
 
 // clear error message
 export const clearErrorMessage = () => (dispatch) => {
   const actionType = "clearErrorMessage";
-  dispatch(contractsActionSuccess(actionType));
+  dispatch(projectsActionSuccess(actionType));
 };
 
 // clear success message
 export const clearSuccessMessage = () => (dispatch) => {
   const actionType = "clearSuccessMessage";
-  dispatch(contractsActionSuccess(actionType));
+  dispatch(projectsActionSuccess(actionType));
 };
 
 export const openLogoutModal = () => (dispatch) => {
   const actionType = "logout";
-  dispatch(contractsActionSuccess(actionType));
+  dispatch(projectsActionSuccess(actionType));
 };
 
 export const dismissLogoutModal = () => (dispatch) => {
   const actionType = "closeLogout";
-  dispatch(contractsActionSuccess(actionType));
+  dispatch(projectsActionSuccess(actionType));
 };
 
 export const handleErrorRequest = (payload) => (dispatch) => {
   const actionType = "set";
-  dispatch(contractsActionError(actionType, payload));
+  dispatch(projectsActionError(actionType, payload));
 };
-
+export const setCurrentTab= (payload) => (dispatch) => {
+  const actionType = "currentTab";
+  dispatch(projectsActionSuccess(actionType, payload));
+};
+export const setAnomaliesType= (payload) => (dispatch) => {
+  const actionType = "anomaliesType";
+  dispatch(projectsActionSuccess(actionType, payload));
+};
 // export const fetchCountries = (history) => {
 //   const actionType = "getCountries";
 //   return async (dispatch) => {
 //     try {
-//       dispatch(contractsActionRequested(actionType, true));
+//       dispatch(projectsActionRequested(actionType, true));
 //       const res = await makeGetRequest(`/api/getCountry`);
 //       if (res.status !== 200) {
-//         return dispatch(contractsActionError(actionType, res.data));
+//         return dispatch(projectsActionError(actionType, res.data));
 //       } else {
 //         console.log(res);
-//         dispatch(contractsActionSuccess(actionType, res.data));
+//         dispatch(projectsActionSuccess(actionType, res.data));
 //       }
 //     } catch (error) {
 //       console.log(error);
@@ -62,16 +69,16 @@ export const handleErrorRequest = (payload) => (dispatch) => {
 //           sessionStorage.removeItem("Intro_LETTER_Portal_Token");
 //         } else {
 //           return dispatch(
-//             contractsActionError(actionType, error.response.data.msg)
+//             projectsActionError(actionType, error.response.data.msg)
 //           );
 //         }
 //       } else if (error.request) {
 //         // console.log(error.request)
-//         return dispatch(contractsActionError(actionType, "Network error"));
+//         return dispatch(projectsActionError(actionType, "Network error"));
 //       } else {
 //         // Something happened in setting up the request and triggered an error
 //         console.log("axios", error.message);
-//         dispatch(contractsActionError(actionType, "Network error"));
+//         dispatch(projectsActionError(actionType, "Network error"));
 //       }
 //     }
 //   };
