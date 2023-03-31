@@ -1,11 +1,16 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import SVG from "react-inlinesvg";
 import colors from "../../theme/colors";
-import { Text, Main, Box, Img } from "../../components/Primitives";
+import { Main, Box, Img } from "../../components/Primitives";
 import { HomeHeader, FormComponent } from "./components";
-import { useDispatch } from "react-redux";
-import {togglePage} from '../../services/forgetPassword/action';
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { ErrorComponent } from "../../components/ErrorBoundry/errorComponent";
+import {
+  clearGlobalErrorMessage,
+  clearGlobalSuccessMessage,
+  dismissLogoutModal,
+} from "../../services/global/action";
 
 const SignContainer = styled.div`
   width: 100%;
@@ -35,26 +40,66 @@ const SignContainer = styled.div`
 `;
 
 const SignIn = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { authUser, globalError, globalSuccess } = useSelector(
+    (state) => state.global
+  );
+
   useEffect(() => {
-    dispatch(togglePage({ page: "forgetP1" }));
+    if (globalError !== null || globalSuccess !== null) {
+      setTimeout(() => dispatch(clearGlobalSuccessMessage()), 5000);
+      setTimeout(() => dispatch(clearGlobalErrorMessage()), 5000);
+    }
+  }, [dispatch, globalSuccess, globalError]);
+
+  const initialState = {
+    isAuthenticating: false,
+    loggingOut: false,
+    successModal: false,
+    isFetching: false,
+    logout: false,
+    logoutIcon: false,
+    globalError: null,
+    globalSuccess: null,
+    authUser: null,
+  };
+
+  useEffect(() => {
+    // reset state here.
+    dispatch(dismissLogoutModal(initialState));
   }, []);
+
+  const handleClearErrorMessage = () => {
+    dispatch(clearGlobalErrorMessage());
+  };
+  const handleClearSuccessMessage = () => {
+    dispatch(clearGlobalSuccessMessage());
+  };
+
   return (
-    <SignContainer>
-      <HomeHeader />
+    <ErrorComponent
+      error={globalError}
+      success={globalSuccess}
+      clearErrorMessage={handleClearErrorMessage}
+      clearSuccessMessage={handleClearSuccessMessage}
+    >
+      <SignContainer>
+        <HomeHeader />
 
-      <Main className="row">
-        <Box className="col">
-          <Box className="floating-formImg">
-            <Img src={require("../../assets/images/signIn.svg").default} />
+        <Main className="row">
+          <Box className="col">
+            <Box className="floating-formImg">
+              <Img src={require("../../assets/images/signIn.svg").default} />
+            </Box>
           </Box>
-        </Box>
 
-        <Box className="col-md-5 col">
-          <FormComponent />
-        </Box>
-      </Main>
-    </SignContainer>
+          <Box className="col-md-5 col">
+            <FormComponent />
+          </Box>
+        </Main>
+      </SignContainer>
+    </ErrorComponent>
   );
 };
 

@@ -10,7 +10,8 @@ const StyledContainer = styled.div`
   background-color: ${(props) => (props.bg ? props.bg : "transparent")};
   border-radius: 4px;
   height: 48px;
-
+  width: 100%;
+  
   .inputfile {
     position: absolute;
     top: 0;
@@ -28,16 +29,15 @@ const StyledContainer = styled.div`
   }
 `;
 
-const FileInput = ({ handleChange, name, file, bg }) => {
-  const { isUploading } = useSelector((state) => state.contract);
+const FileInput = ({ handleChange, name, file, bg, ...props }) => {
 
   return (
     <StyledContainer selected={file ? true : false} bg={bg}>
       <input
         type="file"
-        accept=".png, .jpg, .jpeg"
-        name={"partnerApproval"}
-        id={"partnerApproval"}
+        accept={props.acceptedType}
+        name={name}
+        id={name}
         className="inputfile"
         onChange={handleChange}
       />
@@ -45,7 +45,7 @@ const FileInput = ({ handleChange, name, file, bg }) => {
         <label htmlFor={name}>
           <Text mt={2} color={file ? "#3c751f" : "#838D9D"} fontWeight={5}>
             {file
-              ? `You have selected "${file.filename}"`
+              ? `You have selected a file`
               : "No file uploaded yet"}
           </Text>
         </label>
@@ -57,14 +57,7 @@ const FileInput = ({ handleChange, name, file, bg }) => {
           px={"14px"}
         >
           <Text color="#ffffff" lineHeight="28px">
-            {isUploading ? (
-              <span style={{ display: "flex", alignItems: "center" }}>
-                <LoadingOutlined style={{ marginRight: "0.65rem" }} />
-                Uploading
-              </span>
-            ) : (
-              "Browse"
-            )}
+            Browse
           </Text>
         </Box>
       </div>

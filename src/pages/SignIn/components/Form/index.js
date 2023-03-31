@@ -7,27 +7,59 @@ import { isRequired } from "../../../../utils";
 import colors from "../../../../theme/colors";
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
+import qs from "qs";
 import { useNavigate } from "react-router-dom";
+import { handleLogin } from "../../../../services/global/action";
+import { useDispatch, useSelector } from "react-redux";
+import { togglePage } from "../../../../services/forgetPassword/action";
 
 const Schema = Yup.object().shape({
-  email: Yup.string().required("Username is required"),
+  username: Yup.string()
+    .required("Email is required")
+    .matches(
+      /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+      "Invalid email address"
+    ),
   password: Yup.string()
     .required("Password is required")
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-      "Please choose a stronger password between 8 and 24. Try a mix of letters, numbers, and symbols"
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\?=+\`)\:;\(-_\<,\.>'\*])(?=.{8,})/,
+      "Please choose a stronger password between 8 and 24. Try a mix of letters, numbers, and special case character"
     ),
 });
 
 const FormComponent = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { isAuthenticating } = useSelector((state) => state.global);
+
   const value = {
-    email: "",
+    username: "",
     password: "",
   };
   const handleSubmit = (values) => {
-    console.log(values);
-    navigate("/welcome");
+    const { username, password } = values;
+
+    const params = qs.stringify({
+      username,
+      password,
+      grant_type: "password",
+    });
+    dispatch(handleLogin(params, navigate));
+  };
+
+  const clickOnForgotP = () => {
+    const initialState = {
+      isLoading: false,
+      error: null,
+      success: null,
+      page: "forgetP1",
+      resetPLink: null,
+      successResetP: null,
+    };
+
+    dispatch(togglePage(initialState));
+    navigate("/forgotPassword");
   };
   return (
     <FormContainer>
@@ -73,7 +105,7 @@ const FormComponent = () => {
               </Label>
               <Field
                 type="text"
-                name="email"
+                name="username"
                 width="100%"
                 style={{
                   height: "40px",
@@ -84,7 +116,7 @@ const FormComponent = () => {
                 component={AntInput}
                 submitCount={submitCount}
                 hasFeedback
-                disabled={value.email !== "" ? true : false}
+                disabled={value.username !== "" ? true : false}
               />
             </Box>
 
@@ -132,21 +164,18 @@ const FormComponent = () => {
                 borderColor={colors.modes.light.danger}
                 color={colors.modes.light.danger}
                 bg={colors.modes.light.white}
-                //   disabled={
-                //     (touched && !isValid) || loading || userNameError !== ""
-                //       ? true
-                //       : false
-                //   }
+                // disabled={
+                //   (touched && !isValid) || isAuthenticating ? true : false
+                // }
                 type="submit"
               >
-                {/* {loading ? "Please Wait..." : ""} */}
-                Log In
+                {isAuthenticating ? "Please Wait..." : "Log In"}
               </ButtonOutlined>
             </Box>
 
             <Box display="flex" alignItems="center" justifyContent="center">
               <Text
-                onClick={() => navigate("/forgotPassword")}
+                onClick={() => clickOnForgotP()}
                 fontSize="12px"
                 lineHeight="16px"
                 letterSpacing={"0.01em"}

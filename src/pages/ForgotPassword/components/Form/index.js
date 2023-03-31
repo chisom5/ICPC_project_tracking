@@ -1,41 +1,80 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Box, Text, Label, Heading } from "../../../../components/Primitives";
 import { AntInput, AntPassword } from "../../../../components/AntFormik";
 import { ButtonOutlined } from "../../../../components/Button";
-import { isRequired } from "../../../../utils";
 import colors from "../../../../theme/colors";
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { togglePage } from "../../../../services/forgetPassword/action";
+import {
+  togglePage,
+  handleForgotPassword,
+  handleResetPassword,
+} from "../../../../services/forgetPassword/action";
 
-const Schema = Yup.object().shape({
-  email: Yup.string().required("Username is required"),
-  password: Yup.string()
+const ForgotPSchema = Yup.object().shape({
+  email: Yup.string()
+    .required("Email is required")
+    .matches(
+      /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+      "Invalid email address"
+    ),
+});
+
+const ResetPSchema = Yup.object().shape({
+  code: Yup.string().required("code is required"),
+  newPassword: Yup.string()
     .required("Password is required")
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
       "Please choose a stronger password between 8 and 24. Try a mix of letters, numbers, and symbols"
     ),
+  confirmPassword: Yup.string()
+    .required("Confirm password is required")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+      "Please choose a stronger password between 8 and 24. Try a mix of letters, numbers, and symbols"
+    )
+    .oneOf([Yup.ref("newPassword"), null], "Password must match"),
 });
 
 const FormComponent = () => {
-  const { page } = useSelector((state) => state.forgetP);
+  const { page, resetPLink, isLoading } = useSelector(
+    (state) => state.forgetP
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const value = {
+  const ForgotPvalue = {
     email: "",
-    password: "",
   };
+  const ResetPvalue = {
+    code: "",
+    newPassword: "",
+    confirmPassword: "",
+  };
+  useEffect(() => {
+    if (resetPLink !== null) {
+      dispatch(togglePage({ page: "forgetP2" }));
+    }
+  }, [dispatch, resetPLink]);
+
   const handleForgotPSubmit = (values) => {
-    console.log(values, "hi");
-    dispatch(togglePage({ page: "forgetP2" }));
+    const params = {
+      Email: values.email,
+    };
+    dispatch(handleForgotPassword(params, navigate));
   };
+
   const handleResetPSubmit = (values) => {
-    console.log(values);
-    // if successful go back to login page.
+    const params = {
+      key: resetPLink?.key,
+      token: values.code,
+      newPassword: values.newPassword,
+      confirmPassword: values.confirmPassword,
+    };
+    dispatch(handleResetPassword(params, navigate));
   };
   return (
     <FormContainer>
@@ -80,8 +119,8 @@ const FormComponent = () => {
             reset your account password.
           </Text>
           <Formik
-            initialValues={value}
-            validationSchema={Schema}
+            initialValues={ForgotPvalue}
+            validationSchema={ForgotPSchema}
             onSubmit={handleForgotPSubmit}
           >
             {({ touched, isValid, isSubmitting, submitCount }) => (
@@ -108,7 +147,7 @@ const FormComponent = () => {
                     component={AntInput}
                     submitCount={submitCount}
                     hasFeedback
-                    disabled={value.email !== "" ? true : false}
+                    disabled={ForgotPvalue.email !== "" ? true : false}
                   />
                 </Box>
 
@@ -128,28 +167,22 @@ const FormComponent = () => {
                     borderColor={colors.modes.light.danger}
                     color={colors.modes.light.danger}
                     bg={colors.modes.light.white}
-                    //   disabled={
-                    //     (touched && !isValid) || loading || userNameError !== ""
-                    //       ? true
-                    //       : false
-                    //   }
-                    onClick={handleForgotPSubmit}
+                    // disabled={(touched && !isValid) || isLoading ? true : false}
                     type="submit"
                   >
-                    {/* {loading ? "Please Wait..." : ""} */}
-                    Continue
+                    {isLoading ? "Please Wait..." : "Continue"}
                   </ButtonOutlined>
                 </Box>
 
                 <Box display="flex" alignItems="center" justifyContent="center">
                   <Text
-                    onClick={() => navigate("/signIn")}
+                    onClick={() => navigate("/")}
                     fontSize="12px"
                     lineHeight="16px"
                     letterSpacing={"0.01em"}
                     fontWeight={600}
                     color={colors.modes.light.mainBlue}
-                    style={{cursor: 'pointer'}}
+                    style={{ cursor: "pointer" }}
                   >
                     I remember my password
                   </Text>
@@ -200,8 +233,8 @@ const FormComponent = () => {
             </Text>
           </Box>
           <Formik
-            initialValues={value}
-            validationSchema={Schema}
+            initialValues={ResetPvalue}
+            validationSchema={ResetPSchema}
             onSubmit={handleResetPSubmit}
           >
             {({ touched, isValid, isSubmitting, submitCount }) => (
@@ -217,18 +250,18 @@ const FormComponent = () => {
                   </Label>
                   <Field
                     type="text"
-                    name="email"
+                    name="code"
                     width="100%"
                     style={{
                       height: "40px",
                       borderRadius: "4px",
                       background: "transparent",
                     }}
-                    placeholder="Enter your company email address"
+                    placeholder="Enter the code sent to your email address"
                     component={AntInput}
                     submitCount={submitCount}
                     hasFeedback
-                    disabled={value.email !== "" ? true : false}
+                    disabled={ResetPvalue.code !== "" ? true : false}
                   />
                 </Box>
                 <Box className="transparen-bg">
@@ -241,19 +274,19 @@ const FormComponent = () => {
                     New Password
                   </Label>
                   <Field
-                    type="text"
-                    name="email"
+                  type='text'
+                    name="newPassword"
                     width="100%"
                     style={{
                       height: "40px",
                       borderRadius: "4px",
                       background: "transparent",
                     }}
-                    placeholder="Enter your company email address"
-                    component={AntInput}
+                    placeholder="Enter a new password"
+                    component={AntPassword}
                     submitCount={submitCount}
                     hasFeedback
-                    disabled={value.email !== "" ? true : false}
+                    disabled={ResetPvalue.newPassword !== "" ? true : false}
                   />
                 </Box>
                 <Box className="transparen-bg">
@@ -266,19 +299,19 @@ const FormComponent = () => {
                     Confirm Password
                   </Label>
                   <Field
-                    type="text"
-                    name="email"
+                  type='text'
+                    name="confirmPassword"
                     width="100%"
                     style={{
                       height: "40px",
                       borderRadius: "4px",
                       background: "transparent",
                     }}
-                    placeholder="Enter your company email address"
-                    component={AntInput}
+                    placeholder="Re-enter your password"
+                    component={AntPassword}
                     submitCount={submitCount}
                     hasFeedback
-                    disabled={value.email !== "" ? true : false}
+                    disabled={ResetPvalue.confirmPassword !== "" ? true : false}
                   />
                 </Box>
 
@@ -298,27 +331,22 @@ const FormComponent = () => {
                     borderColor={colors.modes.light.danger}
                     color={colors.modes.light.danger}
                     bg={colors.modes.light.white}
-                    //   disabled={
-                    //     (touched && !isValid) || loading || userNameError !== ""
-                    //       ? true
-                    //       : false
-                    //   }
+                    disabled={(touched && !isValid) || isLoading ? true : false}
                     type="submit"
                   >
-                    {/* {loading ? "Please Wait..." : ""} */}
-                    Reset Password
+                    {isLoading ? "Please Wait..." : "Reset Password"}
                   </ButtonOutlined>
                 </Box>
 
                 <Box display="flex" alignItems="center" justifyContent="center">
                   <Text
-                    onClick={() => navigate("/signIn")}
+                    onClick={() => navigate("/")}
                     fontSize="12px"
                     lineHeight="16px"
                     letterSpacing={"0.01em"}
                     fontWeight={600}
                     color={colors.modes.light.mainBlue}
-                    style={{cursor: 'pointer'}}
+                    style={{ cursor: "pointer" }}
                   >
                     I remember my password
                   </Text>

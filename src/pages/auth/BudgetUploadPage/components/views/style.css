@@ -1,0 +1,17 @@
+canvas{
+    width: 366px;
+    height: 290px !important;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: default;
+}
+
+.ant-table-title {
+    border-radius: 2px 2px 0 0;
+    color: #CC3366;
+    font-weight: bold;
+    display: flex;
+    font-size: 15px;
+    text-align: center;
+    justify-content: center;
+}

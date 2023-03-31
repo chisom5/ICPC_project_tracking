@@ -17,7 +17,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background-color: ${themeGet("colors.background", "#ffffff")};
+    background-color: ${themeGet("colors.background", "#f6f6f6")};
     font-family: "OpenSans";
     margin: ${themeGet("space.0", "0px")};
     padding: ${themeGet("space.0", "0px")};
@@ -53,8 +53,6 @@ export const GlobalStyle = createGlobalStyle`
   p{
     margin: 0px;
   }
-  .ant-form-item-explain-error{
-    color: #ff4d4f;
-  }
+ 
   
     `;

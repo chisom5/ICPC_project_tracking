@@ -5,7 +5,14 @@
 p {
   margin: 0px;
 }
+body{
+  background-color: #f6f6f6;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.ant-form-item-explain-error{
+  color: #ff4d4f !important;
 }

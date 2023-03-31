@@ -11,21 +11,29 @@ import forgotPasswordReducer from "./forgetPassword/forgotPasswordSlice";
 import globalReducer from "./global/globalSlice";
 import budgetRedcer from "./budgetPage/budgetSlice";
 import contractsReducer from "./contracts/contractsSlice";
+import projectSelectionReducer from "./projectSelection/projectSelectionSlice";
+import projectsReducer from "./projects/projectsSlice";
+import userReducer from "./users/usersSlice";
 import themeReducer from "../theme/themeSlice";
+import metaDataReducer from './metaData/metaDataSlice';
 
 const rootReducer = combineReducers({
   theme: themeReducer,
+  metaData: metaDataReducer,
   forgetP: forgotPasswordReducer,
   global: globalReducer,
   budget: budgetRedcer,
   contract: contractsReducer,
+  projectSelection: projectSelectionReducer,
+  projects: projectsReducer,
+  users: userReducer
 });
 
 const persistConfig = {
   key: "root",
   version: 1,
   storage: sessionStorage,
-  whitelist: ["auth"], //whitelist means only auth will be persisted.
+  whitelist: ["global", "forgetP"], //whitelist means only auth and forgetP will be persisted.
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

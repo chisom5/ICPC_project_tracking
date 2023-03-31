@@ -1,5 +1,14 @@
 import React from "react";
-import { DatePicker, Form, Input, TimePicker, Select, InputNumber } from "antd";
+import {
+  DatePicker,
+  Form,
+  Input,
+  TimePicker,
+  Select,
+  InputNumber,
+  Space,
+  Checkbox,
+} from "antd";
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -26,7 +35,7 @@ const CreateAntField =
       form.setFieldValue(field.name, value);
 
     const onChange = (value) => form.setFieldValue(field.name, value);
-    
+
     const onBlur = () => form.setFieldTouched(field.name, true);
     return (
       <div className="field-container">
@@ -50,11 +59,38 @@ const CreateAntField =
             }
           >
             {selectOptions &&
-              selectOptions.map((v, i) => (
-                <Option key={i} value={v.value}>
-                  {v.name}
-                </Option>
-              ))}
+              selectOptions.map((v, i) => {
+                if (props.selectType === "ceptgBYear") {
+                  // if (v.isTracked === 0) {
+                    return (
+                      <Option key={i} value={v.Year} label={v.Year}>
+                        <Space>
+                          {/* <span role="img" aria-label={v.Year}>
+                            <Checkbox />
+                          </span> */}
+                          {v.Year}
+                        </Space>
+                      </Option>
+                    );
+                  // }
+                } else {
+                  return (
+                    <Option
+                      key={i}
+                      value={
+                        props.selectType === "selectionCriteria"
+                          ? v.Name
+                          : JSON.stringify(v)
+                      }
+                    >
+                      {props.selectType === "budgetType" ||
+                      props.selectType === "selectionCriteria"
+                        ? v.Name
+                        : v.Period}
+                    </Option>
+                  );
+                }
+              })}
           </AntComponent>
         </FormItem>
       </div>

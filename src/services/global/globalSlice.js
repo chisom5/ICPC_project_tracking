@@ -3,14 +3,18 @@ import GLOBAL_CONSTANT from "./type";
 import update from "immutability-helper";
 
 const initialState = {
-  globalError: null,
-  globalSuccess: null,
-
+  isAuthenticating: false,
+  loggingOut: false,
   successModal: false,
   isFetching: false,
   logout: false,
-  currentView: "budget",
-  SelectedAnomalData: [],
+  logoutIcon: false,
+  globalError: null,
+  globalSuccess: null,
+  authUser: null,
+  trackingId: null,
+  storedTrackingYear: null,
+  trackingStatus: null,
 };
 
 const requestingHome = (state, loading) =>
@@ -20,18 +24,27 @@ const requestingHome = (state, loading) =>
     },
   });
 
-const setLogoutSuccess = (state) => {
+const userAuthenticated = (state, { payload }) => {
   return update(state, {
-    logout: {
-      $set: true,
+    isAuthenticating: {
+      $set: false,
+    },
+    authUser: {
+      $set: payload,
+    },
+    globalSuccess: {
+      $set: payload ? "User authenticated" : null,
     },
   });
 };
 
-const setCloseLogoutSuccess = (state) => {
+const handleSetTrackingStatus = (state, { payload }) => {
   return update(state, {
-    logout: {
+    isFetching: {
       $set: false,
+    },
+    trackingStatus: {
+      $set: payload,
     },
   });
 };
@@ -53,7 +66,7 @@ const clearSuccessMessage = (state) =>
 
 const setErrorAction = (state, { payload }) =>
   update(state, {
-    error: {
+    globalError: {
       $set: payload,
     },
   });
@@ -63,8 +76,10 @@ const handleError = (state, { error }) => {
     isFetching: {
       $set: false,
     },
-
-    error: {
+    isAuthenticating: {
+      $set: false,
+    },
+    globalError: {
       $set: error,
     },
   });
@@ -76,26 +91,56 @@ export const globalSlice = createSlice({
 
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(GLOBAL_CONSTANT.currentViewSuccess, (state, action) => {
+    builder.addCase(GLOBAL_CONSTANT.setError, (state, action) => {
+      return setErrorAction(state, action);
+    });
+
+    builder.addCase(GLOBAL_CONSTANT.setTrackingIdSuccess, (state, action) => {
       return {
         ...state,
         ...action.payload,
       };
     });
-    builder.addCase(GLOBAL_CONSTANT.setError, (state, action) => {
-      return setErrorAction(state, action);
+    builder.addCase(
+      GLOBAL_CONSTANT.inititateNewProjectSuccess,
+      (state, action) => {
+        return {
+          ...state,
+          ...action.payload,
+        };
+      }
+    );
+
+    builder.addCase(
+      GLOBAL_CONSTANT.authenticateUserRequested,
+      (state, action) => {
+        return requestingHome(state, "isAuthenticating");
+      }
+    );
+    builder.addCase(GLOBAL_CONSTANT.authenticateUserError, (state, action) => {
+      return handleError(state, action);
     });
 
-    // builder.addCase(GLOBAL_CONSTANT.getCountriesRequested, (state, action) => {
-    //   return requestingHome(state, "isFetching");
-    // });
-    // builder.addCase(GLOBAL_CONSTANT.getCountriesError, (state, action) => {
-    //   return handleError(state, action);
-    // });
+    builder.addCase(
+      GLOBAL_CONSTANT.authenticateUserSuccess,
+      (state, action) => {
+        return userAuthenticated(state, action);
+      }
+    );
 
-    // builder.addCase(GLOBAL_CONSTANT.getCountriesSuccess, (state, action) => {
-    //   return handledCountriesFeteched(state, action);
-    // });
+    builder.addCase(
+      GLOBAL_CONSTANT.TrackingStatusRequested,
+      (state, action) => {
+        return requestingHome(state, "isFetching");
+      }
+    );
+    builder.addCase(GLOBAL_CONSTANT.TrackingStatusError, (state, action) => {
+      return handleError(state, action);
+    });
+
+    builder.addCase(GLOBAL_CONSTANT.TrackingStatusSuccess, (state, action) => {
+      return handleSetTrackingStatus(state, action);
+    });
 
     builder.addCase(GLOBAL_CONSTANT.clearErrorMessageSuccess, (state) => {
       return clearError(state);
@@ -105,12 +150,18 @@ export const globalSlice = createSlice({
       return clearSuccessMessage(state);
     });
 
-    builder.addCase(GLOBAL_CONSTANT.logoutSuccess, (state) => {
-      return setLogoutSuccess(state);
+    builder.addCase(GLOBAL_CONSTANT.logoutSuccess, (state, action) => {
+      return {
+        ...state,
+        ...action.payload,
+      };
     });
 
-    builder.addCase(GLOBAL_CONSTANT.closeLogoutSuccess, (state) => {
-      return setCloseLogoutSuccess(state);
+    builder.addCase(GLOBAL_CONSTANT.closeLogoutSuccess, (state, action) => {
+      return {
+        ...state,
+        ...action.payload,
+      };
     });
   },
 });

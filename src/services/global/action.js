@@ -1,5 +1,5 @@
 import GLOBAL_CONSTANT from "./type";
-// import { makeGetRequest } from "./api";
+import { makeGetRequest, makeAuthRequest } from "./api";
 
 const globalActionsSuccess = (actionType, payload) => ({
   type: GLOBAL_CONSTANT[`${actionType}Success`],
@@ -16,63 +16,144 @@ const globalActionsError = (actionType, error) => ({
 });
 
 // clear error message
-export const clearErrorMessage = () => (dispatch) => {
+export const clearGlobalErrorMessage = () => async (dispatch) => {
   const actionType = "clearErrorMessage";
-  dispatch(globalActionsSuccess(actionType));
+  await dispatch(globalActionsSuccess(actionType));
 };
 
 // clear success message
-export const clearSuccessMessage = () => (dispatch) => {
+export const clearGlobalSuccessMessage = () => async (dispatch) => {
   const actionType = "clearSuccessMessage";
-  dispatch(globalActionsSuccess(actionType));
+  await dispatch(globalActionsSuccess(actionType));
 };
 
-export const openLogoutModal = () => (dispatch) => {
+export const openLogoutModal = (payload) => async (dispatch) => {
   const actionType = "logout";
-  dispatch(globalActionsSuccess(actionType));
+  await dispatch(globalActionsSuccess(actionType, payload));
 };
 
-export const dismissLogoutModal = () => (dispatch) => {
+export const dismissLogoutModal = (payload) => async (dispatch) => {
   const actionType = "closeLogout";
-  dispatch(globalActionsSuccess(actionType));
+  await dispatch(globalActionsSuccess(actionType, payload));
 };
 
-export const setCurrentView = (payload) => (dispatch) => {
-  const actionType = "currentView";
-  dispatch(globalActionsSuccess(actionType, payload));
+export const setTrackingId = (payload) => async (dispatch) => {
+  const actionType = "setTrackingId";
+  await dispatch(globalActionsSuccess(actionType, payload));
 };
 
-// export const fetchCountries = (history) => {
-//   const actionType = "getCountries";
-//   return async (dispatch) => {
-//     try {
-//       dispatch(globalActionsRequested(actionType, true));
-//       const res = await makeGetRequest(`/api/getCountry`);
-//       if (res.status !== 200) {
-//         return dispatch(globalActionsError(actionType, res.data));
-//       } else {
-//         console.log(res);
-//         dispatch(globalActionsSuccess(actionType, res.data));
-//       }
-//     } catch (error) {
-//       console.log(error);
-//       if (error.response) {
-//         if (error.response.status === 401) {
-//           history.push(`/`);
-//           sessionStorage.removeItem("Intro_LETTER_Portal_Token");
-//         } else {
-//           return dispatch(
-//             globalActionsError(actionType, error.response.data.msg)
-//           );
-//         }
-//       } else if (error.request) {
-//         // console.log(error.request)
-//         return dispatch(globalActionsError(actionType, "Network error"));
-//       } else {
-//         // Something happened in setting up the request and triggered an error
-//         console.log("axios", error.message);
-//         dispatch(globalActionsError(actionType, "Network error"));
-//       }
-//     }
-//   };
-// }
+export const setInitiateNewProject =(payload) => async (dispatch) => {
+  const actionType = "inititateNewProject";
+  await dispatch(globalActionsSuccess(actionType, payload));
+};
+
+export const handleLogin = (params, navigate) => {
+  const actionType = "authenticateUser";
+
+  return async (dispatch) => {
+    try {
+      dispatch(globalActionsRequested(actionType));
+      const res = await makeAuthRequest(`/user/login`, params);
+
+      if (res.status !== 200) {
+        dispatch(globalActionsError(actionType, res.data.error_description));
+      } else {
+        sessionStorage.setItem("IWPW_3ing_Token", JSON.stringify(res.data));
+        dispatch(globalActionsSuccess(actionType, res.data));
+        navigate("/welcome");
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error, error.response);
+        if (error.response.status === 401) {
+          navigate(`/`);
+          sessionStorage.removeItem("IWPW_3ing_Token");
+        } else {
+          return dispatch(
+            globalActionsError(actionType, error.response.data.error_description)
+          );
+        }
+      } else if (error.request) {
+        console.log(error.request);
+
+        return dispatch(globalActionsError(actionType, "Network error"));
+      } else {
+        // Something happened in setting up the request and triggered an error
+        console.log("axios", error.message);
+      }
+    }
+  };
+};
+export const handleLogOut = (params, navigate) => {
+  const actionType = "logoutUser";
+
+  return async (dispatch) => {
+    try {
+      dispatch(globalActionsRequested(actionType));
+      const res = await makeAuthRequest(`/user/logout`, params);
+
+      if (res.status !== 200) {
+        dispatch(globalActionsError(actionType, res.data.msg));
+      } else {
+        dispatch(globalActionsSuccess(actionType, res.data));
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error, error.response);
+        if (error.response.status === 401) {
+          navigate(`/`);
+          sessionStorage.removeItem("IWPW_3ing_Token");
+        } else {
+          return dispatch(
+            globalActionsError(actionType, error.response.data.msg)
+          );
+        }
+      } else if (error.request) {
+        console.log(error.request);
+
+        return dispatch(globalActionsError(actionType, "Network error"));
+      } else {
+        // Something happened in setting up the request and triggered an error
+        console.log("axios", error.message);
+      }
+    }
+  };
+};
+
+export const fetchProjectTrackingId = (params, navigate) => {
+  const actionType = "TrackingStatus";
+
+  return async (dispatch) => {
+    try {
+      dispatch(globalActionsRequested(actionType));
+      const res = await makeGetRequest(`/trackings/getTrackingById`, params);
+
+      if (res.status !== 200) {
+        dispatch(globalActionsError(actionType, res.data.msg));
+      } else {
+        console.log(res);
+        dispatch(globalActionsSuccess(actionType, res.data.data));
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        console.log(error, error.response);
+        if (error.response.status === 401) {
+          navigate(`/`);
+          sessionStorage.removeItem("IWPW_3ing_Token");
+        } else {
+          return dispatch(
+            globalActionsError(actionType, error.response.data.msg)
+          );
+        }
+      } else if (error.request) {
+        console.log(error.request);
+
+        return dispatch(globalActionsError(actionType, "Network error"));
+      } else {
+        // Something happened in setting up the request and triggered an error
+        console.log("axios", error.message);
+      }
+    }
+  };
+};

@@ -29,14 +29,14 @@ const StyledContainer = styled.div`
   }
 `;
 
-const FileInput = ({ handleChange, name, file, bg }) => {
+const FileInput = ({ handleChange, name, file, bg, ...props }) => {
   const { isUploading } = useSelector((state) => state.contract);
 
   return (
     <StyledContainer selected={file ? true : false} bg={bg}>
       <input
         type="file"
-        accept=".png, .jpg, .jpeg"
+        accept={props.acceptedType}
         name={"partnerApproval"}
         id={"partnerApproval"}
         className="inputfile"
@@ -45,9 +45,7 @@ const FileInput = ({ handleChange, name, file, bg }) => {
       <div className="inputfile-inner">
         <label htmlFor={name}>
           <Text mt={2} color={file ? "#3c751f" : "#838D9D"} fontWeight={5}>
-            {file
-              ? `You have selected "${file.filename}"`
-              : "No file uploaded yet"}
+            {file ? `You have selected a file` : "No file uploaded yet"}
           </Text>
         </label>
         <Box

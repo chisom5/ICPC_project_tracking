@@ -7,19 +7,23 @@ export const TableStyle = styled(Box)`
   box-shadow: ${(props) => (props.tb_shadow ? props.tb_shadow : "none")};
   border-radius: 5px;
 
+  .min-table {
+    padding: 0px 0.65rem;
+  }
+
   .ant-table-container {
     table {
       table-layout: auto !important;
 
       .ant-table-thead > tr > th {
-        padding: 12px 16px;
+        padding: 12px 9px;
         font-weight: 600;
         font-size: 12px;
         line-height: 16px;
         color: ${colors.modes.light.tableHead};
       }
       .ant-table-tbody > tr > td {
-        padding: 12px 16px;
+        padding: 12px 9px;
         font-weight: 400;
         font-size: 12px;
         color: ${colors.modes.light.mainBlack};
@@ -28,11 +32,16 @@ export const TableStyle = styled(Box)`
       }
 
       .ant-table-tbody > tr > td {
+        
 
         .table_display {
           display: flex;
           align-items: center;
           word-break: break-word;
+
+          .text {
+            width: 200px;
+          }
         }
 
         .table_folder_icon {
@@ -44,6 +53,9 @@ export const TableStyle = styled(Box)`
           justify-content: center;
           align-items: center;
           margin-right: 1rem;
+        }
+        .table_anomalie_icon {
+          background: rgba(41, 51, 131, 0.16);
         }
         .table_warning_icon {
           margin-left: 10px;
@@ -63,6 +75,45 @@ export const TableStyle = styled(Box)`
             font-weight: 700;
             font-size: 12px;
           }
+        }
+
+        .tag_success {
+          background: #def0de;
+          border-radius: 10px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          width: fit-content;
+          padding: 2px 8px 2px 8px;
+          gap: 6px;
+          color: #269924;
+          font-weight: 600;
+          border: none;
+        }
+        .tag_warning {
+          background: #fde8d5;
+          border-radius: 10px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          width: fit-content;
+          padding: 2px 8px 2px 8px;
+          gap: 6px;
+          color: #f68d2e;
+          font-weight: 600;
+          border: none;
+        }
+
+        .icon{
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+        }
+        .iconSuccessColor{
+          background: #269924;
+        }
+        .iconWarningColor{
+          background: #F68D2E;
         }
       }
 

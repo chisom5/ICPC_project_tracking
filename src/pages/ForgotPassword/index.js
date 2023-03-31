@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import colors from "../../theme/colors";
-import {  Main, Box, Img } from "../../components/Primitives";
+import { ErrorComponent } from "../../components/ErrorBoundry/errorComponent";
+import { Main, Box, Img } from "../../components/Primitives";
 import { HomeHeader, FormComponent } from "./components";
-import { useSelector } from "react-redux";
-
+import {
+  clearErrorMessage,
+  clearSuccessMessage,
+} from "../../services/forgetPassword/action";
+import {
+  clearGlobalErrorMessage,
+  clearGlobalSuccessMessage,
+} from "../../services/global/action";
+import { useDispatch, useSelector } from "react-redux";
+import {useNavigate} from 'react-router-dom';
 const ForgotPContainer = styled.div`
   width: 100%;
   height: 100vh;
@@ -33,28 +42,73 @@ const ForgotPContainer = styled.div`
 `;
 
 const ForgotPassword = () => {
-  const { page } = useSelector((state) => state.forgetP);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { page, error, success, successResetP } = useSelector((state) => state.forgetP);
+  const { globalError, globalSuccess } = useSelector((state) => state.global);
+
+  useEffect(() => {
+    if (error !== null || success !== null) {
+      setTimeout(() => dispatch(clearSuccessMessage()), 5000);
+      setTimeout(() => dispatch(clearErrorMessage()), 5000);
+    }
+    if (globalError !== null || globalSuccess !== null) {
+      setTimeout(() => dispatch(clearGlobalSuccessMessage()), 5000);
+      setTimeout(() => dispatch(clearGlobalErrorMessage()), 5000);
+    }
+  }, [dispatch, success, error]);
+
+  useEffect(() => {
+    if (successResetP !== null) {
+      navigate("/signIn");
+    }
+  }, [successResetP]);
+  const handleClearErrorMessage = () => {
+    if (error !== null) {
+      dispatch(clearErrorMessage());
+    } else if (globalError !== null) {
+      dispatch(clearGlobalErrorMessage());
+    }
+  };
+  const handleClearSuccessMessage = () => {
+    if (success !== null) {
+      dispatch(clearSuccessMessage());
+    } else if (globalSuccess !== null) {
+      dispatch(clearGlobalSuccessMessage());
+    }
+  };
   return (
-    <ForgotPContainer>
-      <HomeHeader />
+    <ErrorComponent
+      error={error || globalError}
+      success={success || globalSuccess}
+      clearErrorMessage={handleClearErrorMessage}
+      clearSuccessMessage={handleClearSuccessMessage}
+    >
+      <ForgotPContainer>
+        <HomeHeader />
 
-      <Main className="row">
-        <Box className="col">
-          <Box className="floating-formImg">
-            {page === "forgetP1" && (
-              <Img src={require("../../assets/images/forgotP1.svg").default} />
-            )}
-            {page === "forgetP2" && (
-              <Img src={require("../../assets/images/forgotP2.svg").default} />
-            )}
+        <Main className="row">
+          <Box className="col">
+            <Box className="floating-formImg">
+              {page === "forgetP1" && (
+                <Img
+                  src={require("../../assets/images/forgotP1.svg").default}
+                />
+              )}
+              {page === "forgetP2" && (
+                <Img
+                  src={require("../../assets/images/forgotP2.svg").default}
+                />
+              )}
+            </Box>
           </Box>
-        </Box>
 
-        <Box className="col-md-5 col">
-          <FormComponent />
-        </Box>
-      </Main>
-    </ForgotPContainer>
+          <Box className="col-md-5 col">
+            <FormComponent />
+          </Box>
+        </Main>
+      </ForgotPContainer>
+    </ErrorComponent>
   );
 };
 

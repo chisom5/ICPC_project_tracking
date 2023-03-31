@@ -15,12 +15,12 @@ export const Main = styled.main`
 
 export const MainContent = styled.section`
   width: 100%;
+  padding-left: 4.8rem;
 `;
 
 export const OtherContent = styled.section`
   width: 100%;
   height: 100%;
-  padding-left: 4.8rem;
 
   header,
   .header {
@@ -58,28 +58,78 @@ export const UploadContainer = styled(Box)`
   width: 90%;
 
   .field-bg {
+    .ant-input,
+    .ant-input-affix-wrapper {
+      background: ${colors.modes.light.inputBgColor} !important;
+    }
     .ant-select-selector {
       background: ${colors.modes.light.inputBgColor};
       height: 48px !important;
       border-radius: 4px;
+    }
+
+    .ant-textarea {
+      background: ${colors.modes.light.inputBgColor};
+    }
+  }
+  .field-multi-bg {
+    .ant-select-selector {
+      background: ${colors.modes.light.inputBgColor};
+      height: auto;
+      border-radius: 4px;
+    }
+
+    .ant-picker {
+      background: ${colors.modes.light.inputBgColor};
     }
   }
 `;
 
 export const OtherContentContainer = styled(Box)`
   width: 100%;
+
+  .title {
+    color: ${colors.modes.light.neuralDark};
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 15px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.02em;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .header_past_title {
+    color: rgba(21, 39, 56, 0.25);
+    padding-right: 8px;
+
+    &:first-child {
+      padding-left: 0px;
+    }
+  }
+  .header_current_title {
+    border-left: 1.4px solid ${colors.modes.light.danger};
+    padding-left: 8px;
+
+    &:first-child {
+      border-left: none;
+    }
+  }
+  .active_title {
+    color: ${colors.modes.light.danger};
+    font-weight: 600;
+  }
 `;
 
 export const TableWrapper = styled(Box)`
-width: 100%;
-background-color: ${colors.modes.light.white};
-border-radius: 10px;
-`
+  width: 100%;
+  background-color: ${colors.modes.light.white};
+  border-radius: 10px;
+`;
 export const MiniHeaderStyle = styled.div`
   background: ${colors.modes.light.white};
   padding-left: 32px;
-  // padding: ${(props) =>
-    props["no-bPad"] ? "20px 48px 0px 32px" : "20px 48px 20px 32px"};
   height: 54px;
   border: 1px solid #e8e9eb;
   display: flex;
@@ -100,10 +150,22 @@ export const MiniHeaderStyle = styled.div`
   .header_past_title {
     color: rgba(21, 39, 56, 0.25);
     padding-right: 8px;
+
+    &:first-child {
+      padding-left: 0px;
+    }
   }
   .header_current_title {
     border-left: 1.4px solid ${colors.modes.light.danger};
     padding-left: 8px;
+
+    &:first-child {
+      border-left: none;
+    }
+  }
+  .active_title {
+    color: ${colors.modes.light.neuralDark};
+    font-weight: 600;
   }
   .current_title_btab {
     height: 3px;
@@ -119,6 +181,34 @@ export const MiniHeaderStyle = styled.div`
   }
   .contract_tab_left {
     left: 172px;
+  }
+  .instance_tab {
+    left: 0rem;
+    width: 195px;
+  }
+  .project_tab {
+    left: 0rem;
+    width: 85px;
+  }
+  .supporting_tab {
+    left: 12.2rem;
+    width: 175px;
+  }
+  .mda_supporting_tab {
+    left: 12.2rem;
+    width: 175px;
+  }
+  .project_anomalies {
+    left: 6.2rem;
+    width: 80px;
+  }
+  .project_fieldReport {
+    left: 24.4rem;
+    width: 95px;
+  }
+  .field_project_fieldReport {
+    left: 12.2rem;
+    width: 95px;
   }
   .tabs-nav {
     position: relative;
@@ -164,6 +254,152 @@ export const MiniHeaderStyle = styled.div`
       .ant-tabs-ink-bar-animated {
         transition: width 0.3s, left 0.3s, right 0.3s;
       }
+    }
+  }
+`;
+
+// export const ModalContainer = styled.div`
+//   header {
+//     background: #f2f2f2;
+//     height: 71px;
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
+//     padding: 0px 24px;
+//     position: absolute;
+//     top: 0px;
+//     width: 100%;
+//     right: 0;
+//     border-top-left-radius: 6px;
+//     border-top-right-radius: 6px;
+
+//     .modal-title {
+//       font-style: normal;
+//       font-weight: 500;
+//       font-family: KPMG Light;
+//       font-size: 26px;
+//       line-height: 33px;
+//     }
+
+//     .close-modal-icon {
+//       cursor: pointer;
+//     }
+//   }
+//   .modal-mainContent {
+//     padding-top: 65px;
+
+//     .divider {
+//       border-top: 1px solid #e5e5e5;
+//       padding-top: 16px;
+
+//       #sub_title {
+//         margin-bottom: 14px;
+//         letter-spacing: 0.33em;
+//         text-transform: uppercase;
+//         font-weight: 500;
+//         font-size: 10px;
+//       }
+//     }
+//   }
+//   .buttonContainer {
+//     display: flex;
+//     align-items: center;
+//     justify-content: flex-end;
+//     gap: 10px;
+//     margin-top: 26px;
+//   }
+
+//   .ant-input,
+//   .ant-select-selection-item {
+//     font-weight: 400;
+//     font-size: 12px;
+//   }
+//   .ant-select-selection-placeholder {
+//     font-size: 12px;
+//   }
+//   .ant-form-item {
+//     margin-bottom: 16px;
+//   }
+// `;
+
+export const ModalContainer = styled.div`
+  header {
+    background: #f2f2f2;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 24px;
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    right: 0;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+
+    .modal-title {
+      font-style: normal;
+      font-weight: 500;
+      font-family: KPMG Light;
+      font-size: 26px;
+      line-height: 33px;
+    }
+
+    .close-modal-icon {
+      cursor: pointer;
+    }
+  }
+  .modal-mainContent {
+    padding-top: 50px;
+
+    .divider {
+      border-top: 1px solid #e5e5e5;
+      padding-top: 16px;
+
+      #sub_title {
+        margin-bottom: 14px;
+        letter-spacing: 0.33em;
+        text-transform: uppercase;
+        font-weight: 500;
+        font-size: 10px;
+      }
+    }
+
+  }
+  .buttonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 26px;
+
+    .buttonCancel {
+      background: ${colors.modes.light.white};
+      border: 0.5px solid #999ca4;
+      border-radius: 3px;
+    }
+    .confirmButton {
+      background: ${colors.modes.light.secondaryDarkBlue};
+      border: none;
+      color: ${colors.modes.light.white};
+      border-radius: 3px;
+    }
+  }
+
+  .ant-input,
+  .ant-select-selection-item {
+    font-weight: 400;
+    font-size: 12px;
+  }
+  .ant-select-selection-placeholder {
+    font-size: 12px;
+  }
+  .ant-form-item {
+    margin-bottom: 12px;
+  }
+  .budgetAmt_Select {
+    .ant-form-item {
+      width: 150px;
     }
   }
 `;

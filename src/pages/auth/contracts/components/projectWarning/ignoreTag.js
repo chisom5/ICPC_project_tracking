@@ -1,8 +1,51 @@
 import React from "react";
+import { Spin } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Text } from "../../../../../components/Primitives";
+import {
+  handleIgnoreOneAnomaly,
+  handleRequestSuccess,
+} from "../../../../../services/contracts/action";
 import colors from "../../../../../theme/colors";
+import { LoadingOutlined } from "@ant-design/icons";
 
-const IgnoreTag = () => {
+const IgnoreTag = ({ clickable, anomalyId, projectId, ...props }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isIgnoring } = useSelector((state) => state.budget);
+  const { trackingStatus } = useSelector((state) => state.global);
+
+  const handleIgnore = () => {
+    if (clickable) {
+      if (
+        trackingStatus !== null &&
+        (trackingStatus?.tracking.Status === 6 ||
+          trackingStatus?.tracking.Status === 7)
+      ) {
+        dispatch(
+          handleIgnoreOneAnomaly(
+            {
+              anomalyId: anomalyId,
+              projectId: projectId,
+              budgetId: props.budgetId,
+            },
+            navigate
+          )
+        );
+      } else if (
+        trackingStatus !== null &&
+        trackingStatus?.tracking.Status >= 8
+      ) {
+        // dispatch(
+        //   handleRequestSuccess(
+        //     "Contract Detail / Information is complete for this tracking year."
+        //   )
+        // );
+        return;
+      }
+    }
+  };
   return (
     <Text
       bg={colors.modes.light.yellow}
@@ -10,10 +53,16 @@ const IgnoreTag = () => {
       color="#726006"
       py={"2px"}
       px={"8px"}
-      fontSize={'10px'}
+      fontSize={"10px"}
       fontWeight={5}
+      style={{ cursor: clickable ? "pointer" : "auto" }}
+      onClick={handleIgnore}
     >
-      <span>Ignore</span>
+      {isIgnoring ? (
+        <Spin indicator={<LoadingOutlined />} />
+      ) : (
+        <span>Ignore</span>
+      )}
     </Text>
   );
 };

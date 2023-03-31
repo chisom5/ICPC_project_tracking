@@ -65,7 +65,7 @@ const HeaderStyle = styled.header`
 const HeaderComponent = (props) => {
   const navigate = useNavigate();
 
-  const { role } = props;
+  const { user } = props;
 
   const handleLogout = () => {
     sessionStorage.clear();
@@ -73,9 +73,7 @@ const HeaderComponent = (props) => {
     navigate("/");
   };
 
-  const handleView =()=>{
-    
-  }
+  const handleView = () => {};
 
   const items = [
     {
@@ -111,8 +109,11 @@ const HeaderComponent = (props) => {
           <Avatar className="user-avatar">AM</Avatar>
 
           <div className="user-details">
-            <p>Akande Micheal</p>
-            <span id="role">{role}</span>
+            <p>{`${user !== null ? user.firstname : "Akande"} ${
+              user !== null ? user.lastname : "Micheal"
+            }
+                `}</p>
+            <span id="role">{user !== null && user.roleName}</span>
           </div>
 
           <Dropdown menu={{ items }} trigger={["click"]}>
